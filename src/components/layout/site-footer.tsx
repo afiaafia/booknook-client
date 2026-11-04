@@ -1,38 +1,38 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  SiFacebook,
-  SiX,
-  SiLinkedin,
-  SiInstagram,
-  SiGithub,
-} from 'react-icons/si';
+  FaFacebookF,
+  FaXTwitter,
+  FaLinkedinIn,
+  FaInstagram,
+  FaGithub,
+} from 'react-icons/fa6';
 
 const socialLinks = [
   {
     name: 'Facebook',
     href: 'https://www.facebook.com/itsafia220',
-    Icon: SiFacebook,
+    Icon: FaFacebookF,
   },
   {
     name: 'X',
     href: 'https://x.com/afia_codes',
-    Icon: SiX,
+    Icon: FaXTwitter,
   },
   {
     name: 'LinkedIn',
     href: 'https://linkedin.com/in/afia-afia',
-    Icon: SiLinkedin,
+    Icon: FaLinkedinIn,
   },
   {
     name: 'Instagram',
     href: 'https://www.instagram.com/afia.220?rpxt=MXdnYmFsenA2dnNraA==',
-    Icon: SiInstagram,
+    Icon: FaInstagram,
   },
   {
     name: 'GitHub',
     href: 'https://github.com/afiaafia',
-    Icon: SiGithub,
+    Icon: FaGithub,
   },
 ];
 
