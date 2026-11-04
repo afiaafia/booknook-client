@@ -27,6 +27,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
 
   const { data: session } = useSession();
   const [name, setName] = useState('');
+  const [photoUrl, setPhotoUrl] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -55,6 +56,18 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
       return;
     }
 
+    if (isSignUp && photoUrl.trim()) {
+      try {
+        const parsedPhotoUrl = new URL(photoUrl.trim());
+        if (!['http:', 'https:'].includes(parsedPhotoUrl.protocol)) {
+          throw new Error('Invalid photo URL');
+        }
+      } catch {
+        toast.error('Enter a valid profile photo URL.');
+        return;
+      }
+    }
+
     if (isSignUp) {
       if (!isPasswordValid) {
         toast.error(
@@ -77,6 +90,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
             name: name.trim(),
             email: normalizedEmail,
             password,
+            image: photoUrl.trim() || undefined,
           })
         : await signIn.email({ email: normalizedEmail, password });
 
@@ -300,6 +314,27 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
                         className="w-full rounded-sm border border-border bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
                         placeholder="e.g., Emily Dickinson"
                       />
+                    </div>
+                  )}
+
+                  {isSignUp && (
+                    <div className="space-y-2">
+                      <label htmlFor="photoUrl" className="text-sm font-medium">
+                        Profile Photo URL <span className="text-muted">(Optional)</span>
+                      </label>
+                      <input
+                        id="photoUrl"
+                        name="photoUrl"
+                        type="url"
+                        autoComplete="url"
+                        value={photoUrl}
+                        onChange={(event) => setPhotoUrl(event.target.value)}
+                        className="w-full rounded-sm border border-border bg-surface px-4 py-3 text-sm outline-none transition placeholder:text-muted/70 focus:border-primary focus:ring-2 focus:ring-primary/15"
+                        placeholder="https://example.com/your-photo.jpg"
+                      />
+                      <p className="text-xs text-muted">
+                        Add a direct link to your profile picture. You can also leave this empty.
+                      </p>
                     </div>
                   )}
 
