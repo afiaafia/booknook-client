@@ -13,6 +13,7 @@ import { useRouter } from 'next/navigation';
 import {
   ArrowRight,
   BookOpen,
+  Bookmark,
   CalendarDays,
   Check,
   Clock3,
@@ -218,14 +219,28 @@ function SectionTitle({
 }
 
 function Stat({ label, value }: { label: string; value: number }) {
+  const Icon =
+    label === 'Currently Borrowed'
+      ? Clock3
+      : label === 'Books Returned'
+        ? Check
+        : label === 'Saved Books'
+          ? Bookmark
+          : BookOpen;
+
   return (
-    <div className="reading-corner-stat min-w-0 px-4 py-4 sm:px-6 sm:py-5">
-      <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-muted sm:text-xs">
-        {label}
-      </dt>
-      <dd className="mt-2 font-serif text-4xl leading-none text-foreground sm:text-5xl">
-        {value}
-      </dd>
+    <div className="reading-corner-stat flex min-w-0 items-start justify-between gap-3 rounded-sm p-4 sm:p-5">
+      <div className="min-w-0">
+        <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted sm:text-xs">
+          {label}
+        </dt>
+        <dd className="mt-3 font-serif text-4xl leading-none text-foreground sm:text-5xl">
+          {value}
+        </dd>
+      </div>
+      <span className="reading-corner-stat-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-sm">
+        <Icon size={19} strokeWidth={1.6} aria-hidden="true" />
+      </span>
     </div>
   );
 }
@@ -577,7 +592,7 @@ export default function ReadingCorner() {
 
         <dl
           aria-label="Reading overview"
-          className={`reading-corner-stats mt-6 grid grid-cols-2 border-y border-border sm:mt-8 ${stats.length === 4 ? 'xl:grid-cols-4' : 'xl:grid-cols-1'}`}
+          className={`reading-corner-stats mt-7 grid grid-cols-2 gap-3 sm:mt-9 sm:gap-4 ${stats.length === 4 ? 'xl:grid-cols-4' : 'xl:grid-cols-1'}`}
         >
           {stats.map((stat) => (
             <Stat key={stat.label} label={stat.label} value={stat.value} />
