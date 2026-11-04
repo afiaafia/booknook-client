@@ -108,10 +108,10 @@ export default function SiteNavigation() {
             <Image
               src="/images/booknook-logo.png"
               alt="BookNook logo"
-              width={24}
-              height={24}
+              width={32}
+              height={32}
               priority
-              className="h-6 w-6 object-contain"
+              className="h-8 w-8 object-contain"
             />
           </span>
           <span className="block">
