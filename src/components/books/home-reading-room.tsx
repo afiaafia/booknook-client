@@ -211,6 +211,159 @@ function SectionHeading({
   );
 }
 
+
+
+const HERO_MESSAGES = [
+  {
+    eyebrow: 'A LIBRARY FOR THE CURIOUS',
+    image: '/images/banners/banner-discover-normalized.png',
+    title: 'Every book opens a different',
+    emphasis: 'world.',
+    description: 'Discover stories, explore new subjects, and find your next favourite read.',
+  },
+  {
+    eyebrow: 'FOLLOW YOUR CURIOSITY',
+    image: '/images/banners/banner-explore-normalized.png',
+    title: 'Find the story that',
+    emphasis: 'finds you.',
+    description: 'Explore a thoughtful collection of books across genres, ideas, and interests.',
+  },
+  {
+    eyebrow: 'INDEPENDENT SHELVES · SHARED STORIES',
+    image: '/images/banners/banner-share-normalized.png',
+    title: 'Good books deserve to be',
+    emphasis: 'shared.',
+    description: 'Discover, borrow, and share books with a community of curious readers.',
+  },
+] as const;
+
+function HeroMessageCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const update = () => setReducedMotion(media.matches);
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    const timer = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % HERO_MESSAGES.length);
+    }, 5200);
+
+    return () => window.clearInterval(timer);
+  }, [reducedMotion]);
+
+  const previous = () => {
+    setActiveIndex((current) =>
+      (current - 1 + HERO_MESSAGES.length) % HERO_MESSAGES.length
+    );
+  };
+
+  const next = () => {
+    setActiveIndex((current) => (current + 1) % HERO_MESSAGES.length);
+  };
+
+  return (
+    <section
+      className="reading-room-message-carousel"
+      aria-label="BookNook featured banners"
+      aria-roledescription="carousel"
+    >
+      {HERO_MESSAGES.map((slide, index) => {
+        const isActive = index === activeIndex;
+        const position =
+          index === activeIndex
+            ? 'active'
+            : index < activeIndex
+              ? 'previous'
+              : 'next';
+
+        return (
+          <div
+            key={slide.image}
+            className={`reading-room-image-slide reading-room-image-slide--${position}`}
+            style={{
+              transform:
+                position === 'active'
+                  ? 'translateX(0)'
+                  : position === 'previous'
+                    ? 'translateX(-100%)'
+                    : 'translateX(100%)',
+            }}
+            aria-hidden={!isActive}
+            inert={!isActive}
+          >
+            <div
+              className="reading-room-image-slide-photo"
+              style={{ backgroundImage: `url("${slide.image}")` }}
+              aria-hidden="true"
+            />
+            <div className="reading-room-image-slide-overlay" />
+
+            <div className="reading-room-image-slide-content">
+              <p className="reading-room-message-eyebrow">
+                <span aria-hidden="true" />
+                {slide.eyebrow}
+              </p>
+
+              {index === 0 ? (
+                <h1 className="reading-room-message-title">
+                  {slide.title} <em>{slide.emphasis}</em>
+                </h1>
+              ) : (
+                <h2 className="reading-room-message-title">
+                  {slide.title} <em>{slide.emphasis}</em>
+                </h2>
+              )}
+
+              <p className="reading-room-message-description">
+                {slide.description}
+              </p>
+
+              <Link href="/books" className="reading-room-message-cta">
+                Browse Books <ArrowRight size={16} aria-hidden="true" />
+              </Link>
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="reading-room-message-controls">
+        <span className="reading-room-message-note">
+          0{activeIndex + 1} / 0{HERO_MESSAGES.length}
+          <span className="reading-room-message-note-divider"> · </span>
+          STORIES MOVE BETTER TOGETHER
+        </span>
+
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={previous}
+            aria-label="Previous banner"
+            className="reading-room-message-arrow"
+          >
+            <ChevronLeft size={18} aria-hidden="true" />
+          </button>
+          <button
+            type="button"
+            onClick={next}
+            aria-label="Next banner"
+            className="reading-room-message-arrow"
+          >
+            <ChevronRight size={18} aria-hidden="true" />
+          </button>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function CoverComposition({ books }: { books: Book[] }) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
@@ -385,20 +538,10 @@ export default function HomeReadingRoom() {
   return (
     <div className="reading-room-paper overflow-hidden">
       <section className="reading-room-hero reading-room-reveal">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-5 pb-14 pt-12 sm:px-8 sm:pb-20 sm:pt-16 lg:grid-cols-[0.92fr_1.08fr] lg:gap-8 lg:py-20">
-          <div className="relative z-10 max-w-2xl">
-            <p className="mb-6 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.2em] text-secondary-accent">
-              <span className="h-px w-9 bg-brass" />A LIBRARY FOR THE CURIOUS
-            </p>
-            <h1 className="max-w-2xl font-serif text-5xl font-medium leading-[0.96] text-foreground sm:text-6xl lg:text-7xl">
-              Every book opens a different{' '}
-              <em className="font-normal text-primary">world.</em>
-            </h1>
-            <p className="mt-7 max-w-lg text-base leading-7 text-muted sm:text-lg sm:leading-8">
-              Find a story to keep you company, a new subject to follow, or a
-              familiar favorite waiting on another reader's shelf.
-            </p>
-            <form
+        <div className="mx-auto max-w-7xl px-5 pb-14 pt-12 sm:px-8 sm:pb-20 sm:pt-16 lg:py-20">
+          <div className="relative z-10 w-full">
+                        <HeroMessageCarousel />
+<form
               action="/books"
               method="GET"
               className="reading-room-search mt-8 flex max-w-xl flex-col gap-3 border-y border-border py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-3"
@@ -427,20 +570,6 @@ export default function HomeReadingRoom() {
                 Search <ArrowRight size={14} aria-hidden="true" />
               </button>
             </form>
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link
-                href="/books"
-                className="inline-flex min-h-12 items-center gap-2 bg-primary px-5 text-sm font-semibold text-primary-foreground shadow-[0_8px_20px_rgb(var(--shadow-color)/0.14)] transition hover:-translate-y-0.5 hover:bg-primary-dark"
-              >
-                Browse the catalogue <ArrowRight size={16} aria-hidden="true" />
-              </Link>
-              <Link
-                href="#genres"
-                className="inline-flex min-h-12 items-center gap-2 rounded-sm px-4 text-sm font-semibold text-foreground transition hover:text-primary"
-              >
-                Browse by genre <ArrowDownRight size={16} aria-hidden="true" />
-              </Link>
-            </div>
             <div className="mt-10 flex items-center gap-4 border-t border-border pt-5 text-xs text-muted">
               <span className="font-semibold uppercase tracking-[0.14em] text-foreground">
                 Independent shelves · Shared stories
@@ -450,7 +579,6 @@ export default function HomeReadingRoom() {
             </div>
           </div>
 
-          <CoverComposition books={books} />
         </div>
       </section>
 
