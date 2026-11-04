@@ -16,6 +16,7 @@ import {
 import { toast } from 'sonner';
 
 import { signOut, useSession } from '@/lib/auth-client';
+import ThemeToggle from '@/components/theme-toggle';
 
 export default function SiteNavigation() {
   const router = useRouter();
@@ -109,6 +110,7 @@ export default function SiteNavigation() {
         </div>
 
         <div className="hidden items-center gap-4 lg:flex">
+          <ThemeToggle />
           {isPending ? (
             <span className="h-9 w-28 animate-pulse border-b border-border bg-surface" />
           ) : session ? (
@@ -187,11 +189,14 @@ export default function SiteNavigation() {
           )}
         </div>
 
-        <button
-          type="button"
-          aria-label={
-            isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
-          }
+        <div className="flex shrink-0 items-center gap-2 lg:hidden">
+          <ThemeToggle />
+
+          <button
+            type="button"
+            aria-label={
+              isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'
+            }
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-site-navigation"
           onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
@@ -202,7 +207,8 @@ export default function SiteNavigation() {
           ) : (
             <Menu className="h-5 w-5" aria-hidden="true" />
           )}
-        </button>
+          </button>
+        </div>
       </nav>
 
       {isMobileMenuOpen && (
@@ -211,7 +217,7 @@ export default function SiteNavigation() {
           className="absolute inset-x-0 top-full border-b border-border bg-surface px-5 py-4 shadow-[0_16px_34px_rgb(var(--shadow-color)/0.12)] lg:hidden"
         >
           <div className="mx-auto flex max-w-7xl flex-col gap-1">
-            {navigationLinks.map((link) => (
+                        {navigationLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}

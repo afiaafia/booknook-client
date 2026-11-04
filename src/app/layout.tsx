@@ -4,6 +4,7 @@ import { DM_Sans, Playfair_Display, Geist_Mono } from 'next/font/google';
 import { Toaster } from 'sonner';
 import SiteNavigation from '@/components/layout/site-navigation';
 import SiteFooter from '@/components/layout/site-footer';
+import ThemeProvider from '@/components/theme-provider';
 import './globals.css';
 
 const dmSans = DM_Sans({
@@ -42,19 +43,22 @@ export default function RootLayout({
   return (
     <html
       lang="en"
+      suppressHydrationWarning
       className={`${dmSans.variable} ${geistMono.variable} ${editorial.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Suspense
-          fallback={
-            <header className="min-h-[68px] border-b border-border bg-surface" />
-          }
-        >
-          <SiteNavigation />
-        </Suspense>
-        {children}
-        <SiteFooter />
-        <Toaster position="top-right" richColors closeButton />
+        <ThemeProvider>
+          <Suspense
+            fallback={
+              <header className="min-h-[68px] border-b border-border bg-surface" />
+            }
+          >
+            <SiteNavigation />
+          </Suspense>
+          {children}
+          <SiteFooter />
+          <Toaster position="top-right" richColors closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );
