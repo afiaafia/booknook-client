@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
-  BookOpen,
   ChevronDown,
   LoaderCircle,
   LogOut,
@@ -105,8 +104,15 @@ export default function SiteNavigation() {
           className="inline-flex shrink-0 items-center gap-3"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          <span className="flex h-10 w-9 items-center justify-center border border-primary text-primary">
-            <BookOpen className="h-5 w-5" aria-hidden="true" />
+          <span className="flex h-10 w-9 items-center justify-center border border-primary">
+            <Image
+              src="/images/booknook-logo.png"
+              alt="BookNook logo"
+              width={24}
+              height={24}
+              priority
+              className="h-6 w-6 object-contain"
+            />
           </span>
           <span className="block">
             <span className="block font-serif text-[1.65rem] font-semibold leading-none text-foreground">
