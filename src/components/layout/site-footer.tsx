@@ -125,7 +125,7 @@ export default function SiteFooter() {
         {/* Copyright */}
         <div className="mt-9 border-t border-primary-foreground/20 pt-5">
           <p className="text-center text-[0.68rem] tracking-wide text-primary-foreground/55">
-            © {new Date().getFullYear()} BookNook. All rights reserved.
+            © {2026} BookNook. All rights reserved.
           </p>
         </div>
 
