@@ -18,6 +18,7 @@ import {
   Clock3,
   LoaderCircle,
   LogOut,
+  Pencil,
   RotateCcw,
 } from 'lucide-react';
 import { toast } from 'sonner';
@@ -487,24 +488,35 @@ export default function ReadingCorner() {
         <header className="reading-corner-enter border-b border-border pb-8 sm:pb-10">
           <div className="flex flex-col justify-between gap-7 md:flex-row md:items-end">
             <div className="reading-corner-identity flex min-w-0 items-center gap-4 sm:gap-6">
-              {session.user.image && !avatarFailed ? (
-                <Image
-                  src={session.user.image}
-                  alt=""
-                  width={88}
-                  height={88}
-                  unoptimized
-                  onError={() => setAvatarFailed(true)}
-                  className="reading-corner-avatar h-[4.5rem] w-[4.5rem] shrink-0 rounded-full object-cover sm:h-24 sm:w-24"
-                />
-              ) : (
-                <span
-                  aria-label={`${displayName} initials`}
-                  className="reading-corner-monogram flex h-[4.5rem] w-[4.5rem] shrink-0 items-center justify-center rounded-full font-serif text-3xl sm:h-24 sm:w-24 sm:text-4xl"
+              <div className="group relative h-[4.5rem] w-[4.5rem] shrink-0 sm:h-24 sm:w-24">
+                {session.user.image && !avatarFailed ? (
+                  <Image
+                    src={session.user.image}
+                    alt=""
+                    fill
+                    unoptimized
+                    onError={() => setAvatarFailed(true)}
+                    className="reading-corner-avatar rounded-full object-cover"
+                  />
+                ) : (
+                  <span
+                    aria-label={`${displayName} initials`}
+                    className="reading-corner-monogram flex h-full w-full items-center justify-center rounded-full font-serif text-3xl sm:text-4xl"
+                  >
+                    {getInitials(session.user.name)}
+                  </span>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setIsEditorOpen(true)}
+                  aria-label="Edit profile picture and information"
+                  title="Edit profile"
+                  className="absolute -bottom-1 -right-1 z-10 flex h-9 w-9 items-center justify-center rounded-full border-2 border-background bg-primary text-primary-foreground shadow-md transition hover:scale-110 hover:bg-primary-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
-                  {getInitials(session.user.name)}
-                </span>
-              )}
+                  <Pencil size={15} aria-hidden="true" />
+                </button>
+              </div>
               <div className="min-w-0">
                 <p className="mb-2 inline-flex items-center gap-2 text-[0.65rem] font-semibold uppercase tracking-[0.17em] text-secondary-accent">
                   <span className="h-px w-5 bg-secondary-accent" /> Reader
