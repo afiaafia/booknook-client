@@ -14,7 +14,7 @@ import {
   Search,
 } from 'lucide-react';
 
-import { A11y, Navigation } from 'swiper/modules';
+import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import {
@@ -211,6 +211,18 @@ function SectionHeading({
 }
 
 function CoverComposition({ books }: { books: Book[] }) {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const updatePreference = () => setPrefersReducedMotion(media.matches);
+
+    updatePreference();
+    media.addEventListener('change', updatePreference);
+
+    return () => media.removeEventListener('change', updatePreference);
+  }, []);
+
   if (books.length === 0) {
     return (
       <div
@@ -224,37 +236,54 @@ function CoverComposition({ books }: { books: Book[] }) {
     );
   }
 
-  const [lead, second, third] = books;
-
   return (
     <div
       className="reading-room-hero-art"
-      aria-label="Books from the collection"
+      aria-label="Explore books from the collection"
     >
-      {lead && (
-        <div className="reading-room-hero-cover reading-room-hero-cover--lead">
-          <BookCover book={lead} />
-          <p className="reading-room-hero-caption">
-            <span className="font-serif text-xl">{lead.title}</span>
-            <span className="mt-1 block text-xs text-muted">{lead.author}</span>
-          </p>
-        </div>
-      )}
-      {second && (
-        <div className="reading-room-hero-cover reading-room-hero-cover--second">
-          <BookCover book={second} />
-        </div>
-      )}
-      {third && (
-        <div className="reading-room-hero-cover reading-room-hero-cover--third">
-          <BookCover book={third} />
-        </div>
-      )}
-      <div className="reading-room-hero-stamp">
-        <span>Open</span>
-        <BookOpen size={18} aria-hidden="true" />
-        <span>Shelves</span>
-      </div>
+      <Swiper
+        modules={[A11y, Autoplay]}
+        direction="horizontal"
+        slidesPerView={3}
+        centeredSlides
+        centeredSlidesBounds={false}
+        spaceBetween={12}
+        speed={1400}
+        loop={books.length >= 4}
+        rewind={books.length > 1 && books.length < 4}
+        autoplay={
+          books.length > 1 && !prefersReducedMotion
+            ? {
+                delay: 2600,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }
+            : false
+        }
+        grabCursor
+        watchOverflow
+        className="reading-room-hero-swiper"
+        a11y={{
+          prevSlideMessage: 'Previous book',
+          nextSlideMessage: 'Next book',
+        }}
+      >
+        {books.map((book) => (
+          <SwiperSlide key={book._id}>
+            <div className="reading-room-hero-slide">
+              <BookCover book={book} />
+              <p className="reading-room-hero-caption">
+                <span className="reading-room-hero-book-title">
+                  {book.title}
+                </span>
+                <span className="reading-room-hero-book-author">
+                  {book.author}
+                </span>
+              </p>
+            </div>
+          </SwiperSlide>
+        ))}
+      </Swiper>
     </div>
   );
 }
@@ -388,7 +417,7 @@ export default function HomeReadingRoom() {
             </div>
           </div>
 
-          <CoverComposition books={books.slice(0, 3)} />
+          <CoverComposition books={books} />
         </div>
       </section>
 
@@ -660,14 +689,20 @@ export default function HomeReadingRoom() {
                 </div>
 
                 <Swiper
-                  modules={[Navigation, A11y]}
+                  modules={[Navigation, A11y, Autoplay]}
                   navigation={{
                     prevEl: '.new-arrivals-prev',
                     nextEl: '.new-arrivals-next',
                   }}
                   slidesPerView={2}
                   spaceBetween={16}
-                  speed={550}
+                  speed={650}
+                  autoplay={{
+                    delay: 3200,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  rewind
                   grabCursor
                   watchOverflow
                   a11y={{

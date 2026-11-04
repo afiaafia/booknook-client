@@ -8,6 +8,7 @@ const API_BASE_URL = (
 
 export const BOOK_CATEGORIES = [
   'Fiction',
+  'Romance',
   'Science',
   'History',
   'Kids',
