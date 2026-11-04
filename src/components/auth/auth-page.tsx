@@ -202,7 +202,7 @@ export default function AuthPage({ mode }: { mode: AuthMode }) {
             {session ? (
               <div className="rounded-sm border border-border bg-surface p-7 shadow-sm sm:p-9">
                 <p className="text-sm font-medium text-primary">
-                  You���re signed in
+                  You're signed in signed in
                 </p>
                 <h2 className="mt-3 text-3xl font-semibold tracking-tight">
                   Welcome, {session.user.name || session.user.email}

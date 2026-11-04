@@ -12,7 +12,7 @@ export default function NotFound() {
           Page not found
         </p>
         <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
-          This page isn���t on our shelves.
+          This page isn't on our shelves.
         </h1>
         <p className="mx-auto mt-4 max-w-md leading-7 text-muted">
           The address may be outdated, or the page may have moved. Head home or

@@ -401,7 +401,7 @@ export default function ReadingProfileEditor({
                 onChange={(event) => setBio(event.target.value.slice(0, 320))}
                 maxLength={320}
                 rows={3}
-                placeholder="A few words about what you love to read���"
+                placeholder="A few words about what you love to read…"
                 className="reading-editor-input reading-editor-textarea"
               />
               <p className="reading-editor-character-count">{bio.length}/320</p>
@@ -418,7 +418,7 @@ export default function ReadingProfileEditor({
                 onChange={(event) => setMotto(event.target.value.slice(0, 120))}
                 maxLength={120}
                 rows={2}
-                placeholder="A line you like to return to���"
+                placeholder="A line you like to return to…"
                 className="reading-editor-input reading-editor-textarea"
               />
               <p className="reading-editor-character-count">
@@ -489,7 +489,7 @@ export default function ReadingProfileEditor({
           <footer className="reading-editor-footer">
             {uploadProgress !== null && (
               <p className="mr-auto text-xs text-muted" aria-live="polite">
-                Uploading portrait �� {uploadProgress}%
+                Uploading portrait · {uploadProgress}%
               </p>
             )}
             <button

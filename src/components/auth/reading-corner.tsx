@@ -614,7 +614,7 @@ export default function ReadingCorner() {
                   About Me
                 </h2>
               </div>
-              <p className="text-xs text-muted">Reading notes �� this device</p>
+              <p className="text-xs text-muted">Reading notes · this device</p>
             </div>
             <div className="grid gap-6 md:grid-cols-[1.2fr_0.8fr]">
               <div className="space-y-5">
@@ -625,7 +625,7 @@ export default function ReadingCorner() {
                 )}
                 {readingPreferences.motto && (
                   <blockquote className="border-l-2 border-primary pl-4 font-serif text-xl italic leading-relaxed text-primary">
-                    ���{readingPreferences.motto}���
+                    “{readingPreferences.motto}”
                   </blockquote>
                 )}
               </div>
@@ -697,7 +697,7 @@ export default function ReadingCorner() {
                   Your next story is waiting.
                 </p>
                 <p className="mt-2 text-sm text-muted">
-                  You don���t have any books checked out right now.
+                  You don't have any books checked out right now.
                 </p>
                 <Link
                   href="/books"

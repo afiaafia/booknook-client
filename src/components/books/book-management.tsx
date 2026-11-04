@@ -206,7 +206,7 @@ function BookFormDialog({
           <div className="rounded-sm border border-border bg-surface px-4 py-3 text-sm">
             <p className="font-medium">Added by</p>
             <p className="mt-1 text-muted">
-              {user.name || user.email} �� {user.email}
+              {user.name || user.email} · {user.email}
             </p>
           </div>
 
@@ -780,7 +780,7 @@ export default function BookManagement({
               Remove this book?
             </h2>
             <p className="mt-2 text-sm leading-6 text-muted">
-              ���{deleteTarget.title}��� will be removed from the collection. This
+              “{deleteTarget.title}” will be removed from the collection. This
               action cannot be undone.
             </p>
             <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">

@@ -135,7 +135,7 @@ export default function BookCard({
           <div>
             <div className="flex items-center gap-3">
               <span className="text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-brass">
-                {collectionLabel || 'Featured Edition �� Vol. Archive'}
+                {collectionLabel || 'Featured Edition · Vol. Archive'}
               </span>
               <span className="h-px flex-1 bg-border/60" />
             </div>

@@ -369,7 +369,7 @@ export default function HomeReadingRoom() {
             </h1>
             <p className="mt-7 max-w-lg text-base leading-7 text-muted sm:text-lg sm:leading-8">
               Find a story to keep you company, a new subject to follow, or a
-              familiar favorite waiting on another reader���s shelf.
+              familiar favorite waiting on another reader's shelf.
             </p>
             <form
               action="/books"
@@ -416,9 +416,9 @@ export default function HomeReadingRoom() {
             </div>
             <div className="mt-10 flex items-center gap-4 border-t border-border pt-5 text-xs text-muted">
               <span className="font-semibold uppercase tracking-[0.14em] text-foreground">
-                Independent shelves �� Shared stories
+                Independent shelves · Shared stories
               </span>
-              <span aria-hidden="true">��</span>
+              <span aria-hidden="true">✦</span>
               <span>Stories move better together.</span>
             </div>
           </div>
@@ -430,7 +430,7 @@ export default function HomeReadingRoom() {
       <section className="reading-room-featured border-y border-border bg-surface py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
-            eyebrow="The editor���s table"
+            eyebrow="The editor's table"
             title="Featured Edition"
             description="A closer look at a title from the shelves, chosen from the latest books in the collection."
           />
@@ -455,7 +455,7 @@ export default function HomeReadingRoom() {
               </Link>
               <div className="reading-room-featured-copy">
                 <p className="text-xs font-semibold uppercase tracking-[0.17em] text-brass">
-                  {books[0].category} �� From the bindery
+                  {books[0].category} · From the bindery
                 </p>
                 <h2 className="mt-3 max-w-2xl font-serif text-4xl leading-[1.02] text-foreground sm:text-5xl lg:text-6xl">
                   {books[0].title}
@@ -614,7 +614,7 @@ export default function HomeReadingRoom() {
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-muted sm:justify-self-end sm:text-base sm:leading-7">
-            Browse by the shelf you���re drawn to. Each genre opens the existing
+            Browse by the shelf you're drawn to. Each genre opens the existing
             catalogue with that category selected.
           </p>
         </div>
@@ -759,7 +759,7 @@ export default function HomeReadingRoom() {
               The shelves are open
             </p>
             <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">
-              There���s always room for one more story.
+              There's always room for one more story.
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-6 text-primary-foreground/75 sm:text-base">
               Browse the community collection and find a book that feels like it

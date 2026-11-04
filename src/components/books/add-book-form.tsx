@@ -147,7 +147,7 @@ export default function AddBookForm() {
 
     try {
       await createBook(payload);
-      toast.success(`���${title}��� has been added to the library collection.`);
+      toast.success(`“${title}” has been added to the library collection.`);
       router.push('/dashboard/books');
     } catch (error) {
       const message =
@@ -213,7 +213,7 @@ export default function AddBookForm() {
                   {session.user.name || 'BookNook Member'}
                 </p>
                 <p className="truncate text-xs text-muted">
-                  {session.user.email} �� Logged in account
+                  {session.user.email} · Logged-in account
                 </p>
               </div>
             </div>

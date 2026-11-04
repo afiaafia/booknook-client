@@ -212,7 +212,7 @@ export default function BookDetail({ id }: { id: string }) {
       });
 
       toast.success(
-        `���${book.title}��� borrowed successfully! Added to your reading list.`
+        `“${book.title}” borrowed successfully! Added to your reading list.`
       );
       setIsBorrowModalOpen(false);
 
@@ -367,7 +367,7 @@ export default function BookDetail({ id }: { id: string }) {
             <section className="min-w-0">
               <div>
                 <p className="text-[0.65rem] font-semibold uppercase tracking-[0.17em] text-brass">
-                  Bookplate �� {book.category}
+                  Bookplate · {book.category}
                 </p>
                 <h1 className="mt-3 font-serif text-5xl font-medium leading-[0.98] tracking-tight sm:text-6xl">
                   {book.title}
@@ -541,7 +541,7 @@ export default function BookDetail({ id }: { id: string }) {
                   id="borrow-modal-title"
                   className="mt-1 text-2xl font-semibold tracking-tight"
                 >
-                  Borrow ���{book.title}���
+                  Borrow “{book.title}”
                 </h2>
               </div>
               <button

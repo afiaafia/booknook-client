@@ -235,7 +235,7 @@ export default function BookBrowser() {
           ) : error ? (
             <div className="border-y border-border py-14 text-center">
               <h2 className="text-lg font-semibold">
-                The shelves aren���t loading
+                The shelves aren't loading
               </h2>
               <p className="mt-2 text-sm text-muted">{error}</p>
               <button
