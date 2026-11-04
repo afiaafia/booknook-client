@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
@@ -23,6 +23,35 @@ export default function SiteNavigation() {
   const { data: session, isPending } = useSession();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isSigningOut, setIsSigningOut] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isProfileMenuOpen) return;
+
+    function handleOutsideClick(event: PointerEvent) {
+      if (
+        profileMenuRef.current &&
+        !profileMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsProfileMenuOpen(false);
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsProfileMenuOpen(false);
+      }
+    }
+
+    document.addEventListener('pointerdown', handleOutsideClick);
+    document.addEventListener('keydown', handleEscape);
+
+    return () => {
+      document.removeEventListener('pointerdown', handleOutsideClick);
+      document.removeEventListener('keydown', handleEscape);
+    };
+  }, [isProfileMenuOpen]);
 
   async function handleSignOut() {
     setIsSigningOut(true);
@@ -142,8 +171,15 @@ export default function SiteNavigation() {
           {isPending ? (
             <span className="h-9 w-28 animate-pulse border-b border-border bg-surface" />
           ) : session ? (
-            <details className="group relative">
-              <summary className="flex min-h-10 cursor-pointer list-none items-center gap-2 rounded-sm border border-border bg-surface px-2.5 text-sm font-medium transition hover:border-primary [&::-webkit-details-marker]:hidden">
+            <div ref={profileMenuRef} className="relative">
+              <button
+                type="button"
+                aria-expanded={isProfileMenuOpen}
+                aria-haspopup="true"
+                aria-label="Open profile menu"
+                onClick={() => setIsProfileMenuOpen((open) => !open)}
+                className="flex min-h-10 cursor-pointer items-center gap-2 rounded-sm border border-border bg-surface px-2.5 text-sm font-medium transition hover:border-primary"
+              >
                 {session.user.image ? (
                   <Image
                     src={session.user.image}
@@ -162,43 +198,52 @@ export default function SiteNavigation() {
                   {session.user.name || session.user.email}
                 </span>
                 <ChevronDown
-                  className="h-4 w-4 text-muted transition group-open:rotate-180"
+                  className={`h-4 w-4 text-muted transition-transform ${
+                    isProfileMenuOpen ? 'rotate-180' : ''
+                  }`}
                   aria-hidden="true"
                 />
-              </summary>
-              <div className="absolute right-0 top-full z-30 mt-2 w-56 rounded-sm border border-border bg-surface p-2 shadow-lg">
-                <div className="border-b border-border px-3 py-2">
-                  <p className="truncate text-sm font-semibold">
-                    {session.user.name || 'BookNook reader'}
-                  </p>
-                  <p className="truncate text-xs text-muted">
-                    {session.user.email}
-                  </p>
+              </button>
+
+              {isProfileMenuOpen && (
+                <div className="absolute right-0 top-full z-30 mt-2 w-56 rounded-sm border border-border bg-surface p-2 shadow-lg">
+                  <div className="border-b border-border px-3 py-2">
+                    <p className="truncate text-sm font-semibold">
+                      {session.user.name || 'BookNookreader'}
+                    </p>
+                    <p className="truncate text-xs text-muted">
+                      {session.user.email}
+                    </p>
+                  </div>
+                  <Link
+                    href="/dashboard/profile"
+                    onClick={() => setIsProfileMenuOpen(false)}
+                    className="mt-1 block rounded-sm px-3 py-2.5 text-sm hover:bg-background"
+                  >
+                    My Profile
+                  </Link>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsProfileMenuOpen(false);
+                      handleSignOut();
+                    }}
+                    disabled={isSigningOut}
+                    className="flex w-full items-center gap-2 rounded-sm px-3 py-2.5 text-left text-sm text-status-danger hover:bg-status-danger/10 disabled:opacity-60"
+                  >
+                    {isSigningOut ? (
+                      <LoaderCircle
+                        className="h-4 w-4 animate-spin"
+                        aria-hidden="true"
+                      />
+                    ) : (
+                      <LogOut className="h-4 w-4" aria-hidden="true" />
+                    )}
+                    Logout
+                  </button>
                 </div>
-                <Link
-                  href="/dashboard/profile"
-                  className="mt-1 block rounded-sm px-3 py-2.5 text-sm hover:bg-background"
-                >
-                  My Profile
-                </Link>
-                <button
-                  type="button"
-                  onClick={handleSignOut}
-                  disabled={isSigningOut}
-                  className="flex w-full items-center gap-2 rounded-sm px-3 py-2.5 text-left text-sm text-status-danger hover:bg-status-danger/10 disabled:opacity-60"
-                >
-                  {isSigningOut ? (
-                    <LoaderCircle
-                      className="h-4 w-4 animate-spin"
-                      aria-hidden="true"
-                    />
-                  ) : (
-                    <LogOut className="h-4 w-4" aria-hidden="true" />
-                  )}
-                  Logout
-                </button>
-              </div>
-            </details>
+              )}
+            </div>
           ) : (
             <>
               <Link
