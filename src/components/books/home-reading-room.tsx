@@ -9,8 +9,13 @@ import {
   Bookmark,
   BookmarkCheck,
   BookOpen,
+  ChevronLeft,
+  ChevronRight,
   Search,
 } from 'lucide-react';
+
+import { A11y, Navigation } from 'swiper/modules';
+import { Swiper, SwiperSlide } from 'swiper/react';
 
 import {
   BOOK_CATEGORIES,
@@ -627,16 +632,71 @@ export default function HomeReadingRoom() {
             {isLoading ? (
               <LoadingBookGrid />
             ) : newArrivals.length > 0 ? (
-              <div className="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-6 lg:gap-x-6">
-                {newArrivals.map((book) => (
-                  <BookActionCard
-                    key={book._id}
-                    book={book}
-                    saved={savedBooks.includes(book._id)}
-                    onToggleSave={toggleSavedBookId}
-                    compact
-                  />
-                ))}
+              <div className="reading-room-arrivals">
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">
+                    <span className="font-mono text-secondary-accent">
+                      {String(newArrivals.length).padStart(2, '0')}
+                    </span>
+                    {' '}titles on this shelf
+                  </p>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="new-arrivals-prev reading-room-carousel-arrow"
+                      aria-label="Previous books"
+                    >
+                      <ChevronLeft size={19} aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="new-arrivals-next reading-room-carousel-arrow"
+                      aria-label="Next books"
+                    >
+                      <ChevronRight size={19} aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+
+                <Swiper
+                  modules={[Navigation, A11y]}
+                  navigation={{
+                    prevEl: '.new-arrivals-prev',
+                    nextEl: '.new-arrivals-next',
+                  }}
+                  slidesPerView={2}
+                  spaceBetween={16}
+                  speed={550}
+                  grabCursor
+                  watchOverflow
+                  a11y={{
+                    prevSlideMessage: 'Previous books',
+                    nextSlideMessage: 'Next books',
+                  }}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 3,
+                      spaceBetween: 22,
+                    },
+                    1024: {
+                      slidesPerView: 5,
+                      spaceBetween: 24,
+                    },
+                  }}
+                  className="reading-room-arrivals-swiper"
+                >
+                  {newArrivals.map((book) => (
+                    <SwiperSlide key={book._id} className="h-auto">
+                      <BookActionCard
+                        book={book}
+                        saved={savedBooks.includes(book._id)}
+                        onToggleSave={toggleSavedBookId}
+                        compact
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
               </div>
             ) : (
               <BooksEmptyState
