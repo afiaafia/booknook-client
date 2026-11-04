@@ -2193,3 +2193,114 @@ button {
     transition: none;
   }
 }
+
+/* BookNook — Swiper-powered editorial hero banner */
+
+.reading-room-message-carousel {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: clamp(30rem, 48vw, 39rem);
+  min-height: 30rem;
+  overflow: hidden;
+  background: #211b15;
+  isolation: isolate;
+}
+
+.reading-room-message-swiper {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.reading-room-message-swiper .swiper-wrapper,
+.reading-room-message-swiper .swiper-slide {
+  height: 100%;
+}
+
+.reading-room-message-swiper .swiper-slide {
+  min-height: 0;
+}
+
+.reading-room-image-slide {
+  position: relative;
+  inset: auto;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  transform: none !important;
+  transition: none;
+  will-change: auto;
+}
+
+@media (max-width: 639px) {
+  .reading-room-message-carousel {
+    aspect-ratio: auto;
+    height: 36rem;
+    min-height: 36rem;
+  }
+
+  .reading-room-message-swiper,
+  .reading-room-message-swiper .swiper-wrapper,
+  .reading-room-message-swiper .swiper-slide {
+    height: 100%;
+  }
+
+  .reading-room-image-slide {
+    align-items: flex-end;
+  }
+
+  .reading-room-image-slide-photo {
+    background-position: top center;
+    background-size: 100% auto;
+  }
+}
+
+
+/* BookNook — centered hollow-circle banner pagination */
+.reading-room-message-pagination {
+  position: absolute;
+  z-index: 5;
+  left: 50%;
+  right: auto;
+  bottom: 1.25rem;
+  display: flex;
+  width: max-content;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  margin: 0;
+  transform: translateX(-50%);
+}
+
+.reading-room-message-dot {
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  min-width: 11px;
+  padding: 0;
+  border: 1.5px solid rgba(255, 250, 241, 0.9);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  transition: background-color 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.reading-room-message-dot.is-active {
+  border-color: #e3c38b;
+  background: #e3c38b;
+  transform: scale(1.12);
+}
+
+.reading-room-message-dot:focus-visible {
+  outline: 2px solid #e3c38b;
+  outline-offset: 4px;
+}
+
+@media (max-width: 639px) {
+  .reading-room-message-pagination {
+    bottom: 1rem;
+  }
+}

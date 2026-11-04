@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, useSyncExternalStore } from 'react';
+import { Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -16,6 +16,7 @@ import {
 
 import { A11y, Autoplay, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperInstance } from 'swiper';
 
 import {
   BOOK_CATEGORIES,
@@ -240,34 +241,17 @@ const HERO_MESSAGES = [
 function HeroMessageCarousel() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const swiperRef = useRef<SwiperInstance | null>(null);
 
   useEffect(() => {
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
     const update = () => setReducedMotion(media.matches);
+
     update();
     media.addEventListener('change', update);
+
     return () => media.removeEventListener('change', update);
   }, []);
-
-  useEffect(() => {
-    if (reducedMotion) return;
-
-    const timer = window.setInterval(() => {
-      setActiveIndex((current) => (current + 1) % HERO_MESSAGES.length);
-    }, 5200);
-
-    return () => window.clearInterval(timer);
-  }, [reducedMotion]);
-
-  const previous = () => {
-    setActiveIndex((current) =>
-      (current - 1 + HERO_MESSAGES.length) % HERO_MESSAGES.length
-    );
-  };
-
-  const next = () => {
-    setActiveIndex((current) => (current + 1) % HERO_MESSAGES.length);
-  };
 
   return (
     <section
@@ -275,95 +259,166 @@ function HeroMessageCarousel() {
       aria-label="BookNook featured banners"
       aria-roledescription="carousel"
     >
-      {HERO_MESSAGES.map((slide, index) => {
-        const isActive = index === activeIndex;
-        const position =
-          index === activeIndex
-            ? 'active'
-            : index < activeIndex
-              ? 'previous'
-              : 'next';
-
-        return (
-          <div
-            key={slide.image}
-            className={`reading-room-image-slide reading-room-image-slide--${position}`}
-            style={{
-              transform:
-                position === 'active'
-                  ? 'translateX(0)'
-                  : position === 'previous'
-                    ? 'translateX(-100%)'
-                    : 'translateX(100%)',
-            }}
-            aria-hidden={!isActive}
-            inert={!isActive}
-          >
-            <div
-              className="reading-room-image-slide-photo"
-              style={{ backgroundImage: `url("${slide.image}")` }}
-              aria-hidden="true"
-            />
-            <div className="reading-room-image-slide-overlay" />
-
-            <div className="reading-room-image-slide-content">
-              <p className="reading-room-message-eyebrow">
-                <span aria-hidden="true" />
-                {slide.eyebrow}
-              </p>
-
-              {index === 0 ? (
+      <Suspense
+        fallback={
+          <div className="reading-room-message-swiper reading-room-message-swiper-fallback">
+            <div className="reading-room-image-slide reading-room-image-slide--active">
+              <div
+                className="reading-room-image-slide-photo"
+                style={{ backgroundImage: `url("${HERO_MESSAGES[0].image}")` }}
+                aria-hidden="true"
+              />
+              <div className="reading-room-image-slide-overlay" />
+              <div className="reading-room-image-slide-content">
+                <p className="reading-room-message-eyebrow">
+                  <span aria-hidden="true" />
+                  {HERO_MESSAGES[0].eyebrow}
+                </p>
                 <h1 className="reading-room-message-title">
-                  {slide.title} <em>{slide.emphasis}</em>
+                  {HERO_MESSAGES[0].title} <em>{HERO_MESSAGES[0].emphasis}</em>
                 </h1>
-              ) : (
-                <h2 className="reading-room-message-title">
-                  {slide.title} <em>{slide.emphasis}</em>
-                </h2>
-              )}
-
-              <p className="reading-room-message-description">
-                {slide.description}
-              </p>
-
-              <Link href="/books" className="reading-room-message-cta">
-                Browse Books <ArrowRight size={16} aria-hidden="true" />
-              </Link>
+                <p className="reading-room-message-description">
+                  {HERO_MESSAGES[0].description}
+                </p>
+                <Link href="/books" className="reading-room-message-cta">
+                  Browse Books <ArrowRight size={16} aria-hidden="true" />
+                </Link>
+              </div>
             </div>
           </div>
-        );
-      })}
+        }
+      >
+      <Swiper
+        modules={[A11y, Autoplay]}
+        direction="horizontal"
+        slidesPerView={1}
+        spaceBetween={0}
+        speed={reducedMotion ? 0 : 850}
+        loop={HERO_MESSAGES.length > 1}
+        autoplay={
+          reducedMotion
+            ? false
+            : {
+                delay: 3000,
+                disableOnInteraction: false,
+                pauseOnMouseEnter: true,
+              }
+        }
+        grabCursor
+        watchOverflow
+        className="reading-room-message-swiper"
+        onSwiper={(swiper) => {
+          swiperRef.current = swiper;
+          setActiveIndex(swiper.realIndex);
+        }}
+        onSlideChange={(swiper) => {
+          setActiveIndex(swiper.realIndex);
+        }}
+        a11y={{
+          prevSlideMessage: 'Previous banner',
+          nextSlideMessage: 'Next banner',
+        }}
+      >
+        {HERO_MESSAGES.map((slide, index) => {
+          const isActive = index === activeIndex;
 
-      <div className="reading-room-message-controls">
-        <span className="reading-room-message-note">
-          0{activeIndex + 1} / 0{HERO_MESSAGES.length}
-          <span className="reading-room-message-note-divider"> · </span>
-          STORIES MOVE BETTER TOGETHER
-        </span>
+          return (
+            <SwiperSlide key={slide.image}>
+              <div
+                className={`reading-room-image-slide${
+                  isActive ? ' reading-room-image-slide--active' : ''
+                }`}
+                aria-hidden={!isActive}
+                inert={!isActive}
+              >
+                <div
+                  className="reading-room-image-slide-photo"
+                  style={{ backgroundImage: `url("${slide.image}")` }}
+                  aria-hidden="true"
+                />
 
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={previous}
-            aria-label="Previous banner"
-            className="reading-room-message-arrow"
-          >
-            <ChevronLeft size={18} aria-hidden="true" />
-          </button>
-          <button
-            type="button"
-            onClick={next}
-            aria-label="Next banner"
-            className="reading-room-message-arrow"
-          >
-            <ChevronRight size={18} aria-hidden="true" />
-          </button>
-        </div>
+                <div className="reading-room-image-slide-overlay" />
+
+                <div className="reading-room-image-slide-content">
+                  <p className="reading-room-message-eyebrow">
+                    <span aria-hidden="true" />
+                    {slide.eyebrow}
+                  </p>
+
+                  {index === 0 ? (
+                    <h1 className="reading-room-message-title">
+                      {slide.title} <em>{slide.emphasis}</em>
+                    </h1>
+                  ) : (
+                    <h2 className="reading-room-message-title">
+                      {slide.title} <em>{slide.emphasis}</em>
+                    </h2>
+                  )}
+
+                  <p className="reading-room-message-description">
+                    {slide.description}
+                  </p>
+
+                  <Link href="/books" className="reading-room-message-cta">
+                    Browse Books <ArrowRight size={16} aria-hidden="true" />
+                  </Link>
+                </div>
+              </div>
+            </SwiperSlide>
+          );
+        })}
+      </Swiper>
+      </Suspense>
+
+      <div
+        className="reading-room-message-pagination"
+        role="group"
+        aria-label="Choose featured banner"
+        style={{
+          position: 'absolute',
+          zIndex: 10,
+          left: '50%',
+          bottom: '1.25rem',
+          display: 'flex',
+          width: 'max-content',
+          height: 'auto',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '0.7rem',
+          margin: 0,
+          transform: 'translateX(-50%)',
+        }}
+      >
+        {HERO_MESSAGES.map((slide, index) => {
+          const isActive = activeIndex === index;
+
+          return (
+            <button
+              key={slide.image}
+              type="button"
+              onClick={() => swiperRef.current?.slideToLoop(index)}
+              aria-label={`Go to banner ${index + 1}`}
+              aria-pressed={isActive}
+              style={{
+                appearance: 'none',
+                display: 'block',
+                flex: '0 0 11px',
+                width: 11,
+                height: 11,
+                minWidth: 11,
+                padding: 0,
+                border: '1.5px solid rgba(255, 250, 241, 0.9)',
+                borderRadius: '50%',
+                background: isActive ? '#e3c38b' : 'transparent',
+                cursor: 'pointer',
+              }}
+            />
+          );
+        })}
       </div>
     </section>
   );
 }
-
 function CoverComposition({ books }: { books: Book[] }) {
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
