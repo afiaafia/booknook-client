@@ -63,20 +63,38 @@ export default function SiteNavigation() {
   function isActive(href: string) {
     if (href === '/') return pathname === '/';
 
-    // My Borrows should only be active on the dashboard home.
-    if (href === '/dashboard') return pathname === '/dashboard';
-
-    // All Books remains active on individual book detail pages.
     if (href === '/books') {
       return pathname === '/books' || pathname.startsWith('/books/');
     }
 
-    // Other dashboard links support nested routes.
+    if (href === '/dashboard') {
+      return pathname === '/dashboard';
+    }
+
+    if (href === '/dashboard/books/new') {
+      return (
+        pathname === '/dashboard/books/new' ||
+        pathname.startsWith('/dashboard/books/new/')
+      );
+    }
+
+    if (href === '/dashboard/books') {
+      return (
+        (pathname === '/dashboard/books' ||
+          pathname.startsWith('/dashboard/books/')) &&
+        !pathname.startsWith('/dashboard/books/new')
+      );
+    }
+
     return pathname === href || pathname.startsWith(`${href}/`);
   }
 
-  function linkClass(_href: string) {
-    return 'relative px-2 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.11em] text-muted transition hover:text-primary';
+  function linkClass(href: string) {
+    return `relative px-2 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.11em] transition after:absolute after:inset-x-2 after:bottom-0 after:h-px after:origin-left after:bg-primary after:transition-transform ${
+      isActive(href)
+        ? 'text-primary after:scale-x-100'
+        : 'text-muted after:scale-x-0 hover:text-primary hover:after:scale-x-100'
+    }`;
   }
 
   return (
@@ -105,6 +123,7 @@ export default function SiteNavigation() {
             <Link
               key={link.href}
               href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
               className={linkClass(link.href)}
             >
               {link.label}
@@ -224,6 +243,7 @@ export default function SiteNavigation() {
               <Link
                 key={link.href}
                 href={link.href}
+              aria-current={isActive(link.href) ? 'page' : undefined}
                 onClick={() => setIsMobileMenuOpen(false)}
                   className={linkClass(link.href)}
               >
