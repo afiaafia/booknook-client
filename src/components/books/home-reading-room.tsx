@@ -271,7 +271,13 @@ function CoverComposition({ books }: { books: Book[] }) {
         {books.map((book) => (
           <SwiperSlide key={book._id}>
             <div className="reading-room-hero-slide">
-              <BookCover book={book} />
+              <Link
+  href={`/books/${encodeURIComponent(book._id)}`}
+  aria-label={`View details for ${book.title}`}
+  className="block"
+>
+  <BookCover book={book} />
+</Link>
               <p className="reading-room-hero-caption">
                 <span className="reading-room-hero-book-title">
                   {book.title}
