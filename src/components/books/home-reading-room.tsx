@@ -20,6 +20,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import {
   BOOK_CATEGORIES,
   getBooks,
+  getLatestBooks,
   type Book,
   type BookCategory,
 } from '@/lib/api';
@@ -314,6 +315,10 @@ export default function HomeReadingRoom() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [reloadCount, setReloadCount] = useState(0);
+  const [latestBooks, setLatestBooks] = useState<Book[]>([]);
+  const [latestLoading, setLatestLoading] = useState(true);
+  const [latestHasError, setLatestHasError] = useState(false);
+  const [latestReloadCount, setLatestReloadCount] = useState(0);
   const savedBooks = useSyncExternalStore(
     subscribeToSavedBookIds,
     getSavedBookIds,
@@ -343,6 +348,29 @@ export default function HomeReadingRoom() {
     };
   }, [reloadCount]);
 
+  useEffect(() => {
+    let active = true;
+
+    getLatestBooks()
+      .then((result) => {
+        if (!active) return;
+        setLatestBooks(result);
+        setLatestHasError(false);
+      })
+      .catch(() => {
+        if (!active) return;
+        setLatestBooks([]);
+        setLatestHasError(true);
+      })
+      .finally(() => {
+        if (active) setLatestLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [latestReloadCount]);
+
   const popularBooks = [...books]
     .sort((first, second) => {
       const firstBorrowed = first.totalCopies - first.availableCopies;
@@ -353,7 +381,6 @@ export default function HomeReadingRoom() {
       );
     })
     .slice(0, 4);
-  const newArrivals = books.slice(0, 6);
 
   return (
     <div className="reading-room-paper overflow-hidden">
@@ -664,14 +691,14 @@ export default function HomeReadingRoom() {
             linkText="See every title"
           />
           <div className="mt-9">
-            {isLoading ? (
+            {latestLoading ? (
               <LoadingBookGrid />
-            ) : newArrivals.length > 0 ? (
+            ) : latestBooks.length > 0 ? (
               <div className="reading-room-arrivals">
                 <div className="mb-6 flex items-center justify-between gap-4">
                   <p className="text-xs uppercase tracking-[0.16em] text-muted">
                     <span className="font-mono text-secondary-accent">
-                      {String(newArrivals.length).padStart(2, '0')}
+                      {String(latestBooks.length).padStart(2, '0')}
                     </span>
                     {' '}titles on this shelf
                   </p>
@@ -727,7 +754,7 @@ export default function HomeReadingRoom() {
                   }}
                   className="reading-room-arrivals-swiper"
                 >
-                  {newArrivals.map((book) => (
+                  {latestBooks.map((book) => (
                     <SwiperSlide key={book._id} className="h-auto">
                       <BookActionCard
                         book={book}
@@ -741,10 +768,10 @@ export default function HomeReadingRoom() {
               </div>
             ) : (
               <BooksEmptyState
-                hasError={hasError}
+                hasError={latestHasError}
                 onRetry={() => {
-                  setIsLoading(true);
-                  setReloadCount((count) => count + 1);
+                  setLatestLoading(true);
+                  setLatestReloadCount((count) => count + 1);
                 }}
               />
             )}
