@@ -1,26 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { useTheme } from 'next-themes';
 import { Moon, Sun } from 'lucide-react';
 
 export default function ThemeToggle() {
   const { resolvedTheme, setTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  if (!mounted) {
-    return (
-      <span
-        className="h-10 w-10 border border-border"
-        aria-hidden="true"
-      />
-    );
-  }
-
   const isDark = resolvedTheme === 'dark';
 
   return (
@@ -29,7 +13,7 @@ export default function ThemeToggle() {
       onClick={() => setTheme(isDark ? 'light' : 'dark')}
       aria-label={`Switch to ${isDark ? 'light' : 'dark'} mode`}
       title={`Switch to ${isDark ? 'light' : 'dark'} mode`}
-      className="group inline-flex h-10 w-10 shrink-0 items-center justify-center border border-border bg-surface text-foreground transition duration-300 hover:border-primary hover:text-primary active:scale-95"
+      className="group inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-foreground transition duration-300 hover:bg-[#6B4B36]/10 hover:text-[#4A3024] dark:hover:bg-white/10 dark:hover:text-[#F7EBDD] active:scale-95"
     >
       {isDark ? (
         <Sun className="h-[18px] w-[18px] transition-transform duration-500 ease-out group-hover:rotate-[25deg] group-hover:scale-110" aria-hidden="true" />

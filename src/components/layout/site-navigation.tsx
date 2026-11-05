@@ -6,11 +6,10 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import {
   ChevronDown,
+  ChevronRight,
   LoaderCircle,
   LogOut,
-  Menu,
   UserRound,
-  X,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -118,22 +117,38 @@ export default function SiteNavigation() {
   }
 
   function linkClass(href: string) {
-    return `relative px-2 py-2 text-[0.72rem] font-semibold uppercase tracking-[0.11em] transition after:absolute after:inset-x-2 after:bottom-0 after:h-px after:origin-left after:bg-primary after:transition-transform ${
-      isActive(href)
-        ? 'text-primary after:scale-x-100'
-        : 'text-muted after:scale-x-0 hover:text-primary hover:after:scale-x-100'
-    }`;
+    return `relative rounded-full px-3 py-2 text-[0.75rem] font-medium tracking-wide transition-all duration-300
+      after:content-[''] after:absolute after:left-3 after:right-3 after:bottom-1
+      after:h-[1.5px] after:origin-left after:scale-x-0
+      after:bg-[#B18A4A] dark:after:bg-[#CFB274]
+      after:transition-transform after:duration-300 after:ease-out
+      hover:after:scale-x-100 ${
+        isActive(href)
+          ? 'bg-[#6B4B36]/10 text-[#4A3024] after:scale-x-100 dark:bg-white/10 dark:text-[#F7EBDD]'
+          : 'text-[#765B49] hover:bg-[#6B4B36]/5 hover:text-[#4A3024] dark:text-[#C9B29B] dark:hover:bg-white/5 dark:hover:text-[#F7EBDD]'
+      }`;
   }
 
   return (
-    <header className="relative z-20 border-b border-border bg-background">
-      <nav className="mx-auto flex min-h-[76px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-8">
+    <header
+      className="relative z-20 bg-transparent px-4 pt-4 sm:px-8"
+    >
+      <nav
+        className="mx-auto flex min-h-[76px] max-w-7xl items-center justify-between gap-4 rounded-2xl border border-[#765B49]/15 px-4 shadow-[0_12px_40px_rgba(65,45,30,0.10)] backdrop-blur-2xl dark:border-[#F5E8D4]/20 dark:shadow-[0_12px_40px_rgba(20,12,8,0.18)] sm:px-7"
+      style={{
+        backgroundColor: 'var(--guest-nav-bg)',
+        borderColor: 'var(--guest-nav-border)',
+        boxShadow: 'var(--guest-nav-shadow)',
+      }}
+      >
         <Link
           href="/"
           className="inline-flex shrink-0 items-center gap-3"
           onClick={() => setIsMobileMenuOpen(false)}
         >
-          <span className="flex h-10 w-9 items-center justify-center border border-primary">
+          <span
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#6B4B36]/10 dark:bg-white/10"
+          >
             <Image
               src="/images/booknook-logo.png"
               alt="BookNook logo"
@@ -144,11 +159,10 @@ export default function SiteNavigation() {
             />
           </span>
           <span className="block">
-            <span className="block font-serif text-[1.65rem] font-semibold leading-none text-foreground">
+            <span
+              className="booknook-formal-script text-[34px] leading-none text-[#4A3024] dark:text-[#F7EBDD]"
+            >
               BookNook
-            </span>
-            <span className="mt-1 block text-[0.55rem] font-semibold uppercase tracking-[0.18em] text-secondary-accent">
-              The Modern Bindery
             </span>
           </span>
         </Link>
@@ -178,7 +192,7 @@ export default function SiteNavigation() {
                 aria-haspopup="true"
                 aria-label="Open profile menu"
                 onClick={() => setIsProfileMenuOpen((open) => !open)}
-                className="flex min-h-10 cursor-pointer items-center gap-2 rounded-sm border border-border bg-surface px-2.5 text-sm font-medium transition hover:border-primary"
+                className="flex min-h-10 cursor-pointer items-center gap-2 rounded-full border border-[#765B49]/20 bg-[#F5EBDD]/70 px-3 text-sm font-medium text-[#4A3024] transition hover:bg-[#6B4B36]/10 dark:border-[#F5E8D4]/20 dark:bg-white/5 dark:text-[#F7EBDD] dark:hover:bg-white/10"
               >
                 {session.user.image ? (
                   <Image
@@ -206,22 +220,48 @@ export default function SiteNavigation() {
               </button>
 
               {isProfileMenuOpen && (
-                <div className="absolute right-0 top-full z-30 mt-2 w-56 rounded-sm border border-border bg-surface p-2 shadow-lg">
-                  <div className="border-b border-border px-3 py-2">
-                    <p className="truncate text-sm font-semibold">
-                      {session.user.name || 'BookNookreader'}
-                    </p>
-                    <p className="truncate text-xs text-muted">
-                      {session.user.email}
-                    </p>
+                <div
+                  className="absolute right-0 top-full z-30 mt-3 w-64 overflow-hidden rounded-2xl border border-[#765B49]/20 bg-[#F8F2E8]/85 p-2 shadow-[0_18px_50px_rgba(65,45,30,0.18)] backdrop-blur-2xl transition-all duration-200 dark:border-[#F5E8D4]/20 dark:bg-[#30251F]/80 dark:shadow-[0_18px_50px_rgba(0,0,0,0.35)]"
+                >
+                  <div className="flex items-center gap-3 rounded-xl bg-[#6B4B36]/[0.07] px-3 py-3 dark:bg-white/[0.06]">
+                    <span className="flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-full border border-[#B18A4A]/30 bg-[#E9DCCB] text-[#654632] dark:border-[#CFB274]/30 dark:bg-white/10 dark:text-[#E8D4B8]">
+                      {session.user.image ? (
+                        <Image
+                          src={session.user.image}
+                          alt=""
+                          width={44}
+                          height={44}
+                          unoptimized
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <UserRound className="h-5 w-5" aria-hidden="true" />
+                      )}
+                    </span>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold text-[#4A3024] dark:text-[#F7EBDD]">
+                        {session.user.name || 'BookNook Reader'}
+                      </p>
+                      <p className="mt-0.5 truncate text-xs text-[#806C5C] dark:text-[#C9B29B]">
+                        {session.user.email}
+                      </p>
+                    </div>
                   </div>
+
+                  <div className="my-2 h-px bg-[#765B49]/15 dark:bg-[#F5E8D4]/15" />
+
                   <Link
                     href="/dashboard/profile"
                     onClick={() => setIsProfileMenuOpen(false)}
-                    className="mt-1 block rounded-sm px-3 py-2.5 text-sm hover:bg-background"
+                    className="group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-[#4A3024] transition-all duration-200 hover:bg-[#6B4B36]/10 dark:text-[#F7EBDD] dark:hover:bg-white/10"
                   >
-                    My Profile
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#6B4B36]/10 text-[#76513A] transition-colors group-hover:bg-[#6B4B36]/15 dark:bg-white/[0.07] dark:text-[#CFB274] dark:group-hover:bg-white/[0.12]">
+                      <UserRound className="h-[18px] w-[18px]" aria-hidden="true" />
+                    </span>
+                    <span className="flex-1">My Profile</span>
+                    <ChevronRight className="h-4 w-4 text-[#9A826D] transition-transform duration-200 group-hover:translate-x-0.5 dark:text-[#C9B29B]" aria-hidden="true" />
                   </Link>
+
                   <button
                     type="button"
                     onClick={() => {
@@ -229,17 +269,16 @@ export default function SiteNavigation() {
                       handleSignOut();
                     }}
                     disabled={isSigningOut}
-                    className="flex w-full items-center gap-2 rounded-sm px-3 py-2.5 text-left text-sm text-status-danger hover:bg-status-danger/10 disabled:opacity-60"
+                    className="group flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left text-sm font-medium text-[#9C4945] transition-all duration-200 hover:bg-[#9C4945]/[0.08] disabled:cursor-not-allowed disabled:opacity-60 dark:text-[#E39B96] dark:hover:bg-[#E39B96]/[0.08]"
                   >
-                    {isSigningOut ? (
-                      <LoaderCircle
-                        className="h-4 w-4 animate-spin"
-                        aria-hidden="true"
-                      />
-                    ) : (
-                      <LogOut className="h-4 w-4" aria-hidden="true" />
-                    )}
-                    Logout
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#9C4945]/[0.08] text-[#9C4945] transition-colors group-hover:bg-[#9C4945]/[0.14] dark:bg-[#E39B96]/[0.10] dark:text-[#E39B96] dark:group-hover:bg-[#E39B96]/[0.16]">
+                      {isSigningOut ? (
+                        <LoaderCircle className="h-[18px] w-[18px] animate-spin" aria-hidden="true" />
+                      ) : (
+                        <LogOut className="h-[18px] w-[18px]" aria-hidden="true" />
+                      )}
+                    </span>
+                    <span>{isSigningOut ? 'Signing Out...' : 'Sign Out'}</span>
                   </button>
                 </div>
               )}
@@ -248,13 +287,13 @@ export default function SiteNavigation() {
             <>
               <Link
                 href="/sign-in"
-                className="text-sm font-semibold text-muted transition hover:text-primary"
+                className="text-sm font-medium text-[#E9D6C0] transition-colors duration-300 hover:text-white"
               >
                 Sign In
               </Link>
               <Link
                 href="/sign-up"
-                className="inline-flex min-h-10 items-center border border-primary px-4 text-[0.7rem] font-semibold uppercase tracking-[0.1em] text-primary transition hover:bg-primary hover:text-primary-foreground"
+                className="inline-flex min-h-10 items-center rounded-full bg-[#E9D6C0] px-5 text-[0.72rem] font-semibold tracking-wide text-[#392A23] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#F5EBDD] hover:shadow-lg"
               >
                 Sign Up
               </Link>
@@ -273,13 +312,28 @@ export default function SiteNavigation() {
           aria-expanded={isMobileMenuOpen}
           aria-controls="mobile-site-navigation"
           onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center border border-border text-foreground transition hover:border-primary hover:text-primary lg:hidden"
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-0 bg-transparent text-foreground transition hover:bg-[#6B4B36]/10 hover:text-[#4A3024] dark:hover:bg-white/10 dark:hover:text-[#F7EBDD] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#D8B98C] lg:hidden"
         >
-          {isMobileMenuOpen ? (
-            <X className="h-5 w-5" aria-hidden="true" />
-          ) : (
-            <Menu className="h-5 w-5" aria-hidden="true" />
-          )}
+          <span
+            className="relative block h-5 w-5"
+            aria-hidden="true"
+          >
+            <span
+              className={`absolute left-0 top-[4px] h-[1.5px] w-5 rounded-full bg-current transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? 'translate-y-[6px] rotate-45' : ''
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[10px] h-[1.5px] w-5 rounded-full bg-current transition-all duration-200 ease-in-out ${
+                isMobileMenuOpen ? 'scale-x-0 opacity-0' : 'scale-x-100 opacity-100'
+              }`}
+            />
+            <span
+              className={`absolute left-0 top-[16px] h-[1.5px] w-5 rounded-full bg-current transition-all duration-300 ease-in-out ${
+                isMobileMenuOpen ? 'translate-y-[-6px] -rotate-45' : ''
+              }`}
+            />
+          </span>
           </button>
         </div>
       </nav>
@@ -287,16 +341,16 @@ export default function SiteNavigation() {
       {isMobileMenuOpen && (
         <div
           id="mobile-site-navigation"
-          className="absolute inset-x-0 top-full border-b border-border bg-surface px-5 py-4 shadow-[0_16px_34px_rgb(var(--shadow-color)/0.12)] lg:hidden"
+          className="absolute inset-x-0 top-full mt-3 rounded-2xl border border-[#765B49]/20 bg-[#F8F2E8]/95 px-5 py-4 shadow-[0_16px_40px_rgba(65,45,30,0.16)] backdrop-blur-2xl dark:border-[#F5E8D4]/20 dark:bg-[#30251F]/95 dark:shadow-[0_16px_40px_rgba(0,0,0,0.28)] lg:hidden"
         >
-          <div className="mx-auto flex max-w-7xl flex-col gap-1">
+          <div className="mx-auto flex max-w-7xl flex-col items-start gap-1">
                         {navigationLinks.map((link) => (
               <Link
                 key={link.href}
                 href={link.href}
               aria-current={isActive(link.href) ? 'page' : undefined}
                 onClick={() => setIsMobileMenuOpen(false)}
-                  className={linkClass(link.href)}
+                  className={`${linkClass(link.href)} w-fit self-start`}
               >
                 {link.label}
               </Link>

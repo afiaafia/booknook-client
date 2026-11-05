@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { DM_Sans, Playfair_Display, Geist_Mono } from 'next/font/google';
+import { DM_Sans, Playfair_Display, Geist_Mono, Pinyon_Script } from 'next/font/google';
 import { Toaster } from 'sonner';
 import SiteNavigation from '@/components/layout/site-navigation';
 import SiteFooter from '@/components/layout/site-footer';
@@ -27,6 +27,13 @@ const editorial = Playfair_Display({
   display: 'swap',
 });
 
+const booknookScript = Pinyon_Script({
+  variable: '--font-booknook-script',
+  subsets: ['latin'],
+  weight: '400',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
   title: {
     default: 'BookNook | Library Management',
@@ -44,7 +51,7 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={`${dmSans.variable} ${geistMono.variable} ${editorial.variable} h-full antialiased`}
+      className={`${dmSans.variable} ${geistMono.variable} ${editorial.variable} ${booknookScript.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
         <ThemeProvider>

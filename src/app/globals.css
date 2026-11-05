@@ -4473,176 +4473,429 @@ button {
   }
 }
 
-/* ===== Editorial Popular Shelf ===== */
 
-.reading-room-popular-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid var(--border);
-}
+/* BOOKNOOK GOLDEN BORROWING JOURNEY */
 
-.reading-room-popular-eyebrow,
-.reading-room-popular-category {
-  color: var(--secondary-accent);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.reading-room-popular-heading-title {
-  margin-top: 0.7rem;
-  color: var(--foreground);
-  font-family: Georgia, serif;
-  font-size: clamp(2.2rem, 5vw, 3.7rem);
-  font-weight: 500;
-  letter-spacing: -0.045em;
-  line-height: 1.06;
-}
-
-.reading-room-popular-description {
-  max-width: 34rem;
-  margin-top: 0.85rem;
-  color: var(--muted);
-  font-size: 0.9rem;
-  line-height: 1.7;
-}
-
-.reading-room-popular-all {
-  display: inline-flex;
-  flex-shrink: 0;
-  align-items: center;
-  gap: 0.5rem;
-  min-height: 2.5rem;
-  color: var(--primary);
-  font-size: 0.8rem;
-  font-weight: 650;
-  transition: gap 180ms ease;
-}
-
-.reading-room-popular-all:hover {
-  gap: 0.8rem;
-}
-
-.reading-room-popular-art {
-  isolation: isolate;
-}
-
-.reading-room-popular-cover {
-  border-radius: 2px;
-  transition:
-    transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1),
-    box-shadow 350ms ease;
-}
-
-.reading-room-popular-card:hover .reading-room-popular-cover,
-.reading-room-popular-card:focus-within .reading-room-popular-cover {
-  transform: translateY(-5px);
-  box-shadow: 0 20px 38px rgb(var(--shadow-color) / 0.2);
-}
-
-.reading-room-popular-rank {
-  position: absolute;
-  top: 0.8rem;
-  left: 0.8rem;
-  z-index: 2;
-  display: grid;
-  width: 2.25rem;
-  height: 2.25rem;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  background: var(--surface);
-  color: var(--foreground);
-  font-family: Georgia, serif;
-  font-size: 0.9rem;
-}
-
-.reading-room-popular-category {
-  letter-spacing: 0.14em;
-}
-
-.reading-room-popular-title {
-  display: -webkit-box;
+.borrowing-journey-shell {
+  position: relative;
   overflow: hidden;
-  margin-top: 0.45rem;
+  isolation: isolate;
+  padding: 27px 30px 20px;
+  border: 1px solid rgba(190, 153, 86, 0.25);
+  border-radius: 25px;
+  background:
+    radial-gradient(ellipse at 78% 48%, rgba(190, 153, 86, 0.12), transparent 42%),
+    linear-gradient(125deg, rgba(190, 153, 86, 0.055), transparent 55%),
+    var(--surface, transparent);
+  box-shadow: 0 12px 35px rgba(80, 57, 24, 0.045);
+}
+
+.borrowing-journey-content {
+  display: grid;
+  grid-template-columns: minmax(220px, 0.78fr) minmax(0, 1.22fr);
+  align-items: center;
+  gap: 28px;
+}
+
+.borrowing-journey-intro {
+  position: relative;
+  z-index: 2;
+  padding: 5px 0;
+}
+
+.borrowing-journey-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  color: #b38b48;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.borrowing-journey-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c7a15c;
+  box-shadow: 0 0 12px rgba(199, 161, 92, 0.65);
+}
+
+.borrowing-journey-intro h2 {
+  margin-top: 14px;
   color: var(--foreground);
-  font-family: Georgia, serif;
-  font-size: clamp(1.15rem, 2vw, 1.45rem);
-  font-weight: 500;
-  line-height: 1.25;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(32px, 4vw, 47px);
+  font-weight: 400;
+  line-height: 1.08;
+  letter-spacing: -0.045em;
 }
 
-.reading-room-popular-title a {
-  transition: color 180ms ease;
+.borrowing-journey-intro h2 span {
+  color: #b38b48;
+  font-style: italic;
 }
 
-.reading-room-popular-title a:hover {
-  color: var(--primary);
+.borrowing-journey-intro > p {
+  max-width: 330px;
+  margin-top: 13px;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.8;
 }
 
-.reading-room-popular-bottom {
+.borrowing-journey-caption {
   display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  margin-top: 1rem;
-  padding-top: 0.8rem;
-  border-top: 1px solid var(--border);
-  font-size: 0.72rem;
+  align-items: center;
+  gap: 8px;
+  margin-top: 21px;
+  color: #b38b48;
+  font-size: 10px;
   font-weight: 600;
 }
 
-.reading-room-popular-actions {
+.borrowing-journey-stage {
+  position: relative;
+  min-width: 0;
+  height: 245px;
+  isolation: isolate;
+}
+
+.borrowing-journey-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid rgba(190, 153, 86, 0.16);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.borrowing-journey-orbit-one {
+  width: 190px;
+  height: 190px;
+}
+
+.borrowing-journey-orbit-two {
+  width: 270px;
+  height: 270px;
+  border-style: dashed;
+  opacity: 0.65;
+}
+
+.borrowing-journey-book {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  display: grid;
+  width: 105px;
+  height: 105px;
+  place-items: center;
+  border: 1px solid rgba(214, 180, 107, 0.3);
+  border-radius: 30px;
+  background: linear-gradient(145deg, rgba(214, 180, 107, 0.18), rgba(214, 180, 107, 0.035));
+  color: #c5a15f;
+  box-shadow: 0 0 50px rgba(190, 153, 86, 0.12), inset 0 1px rgba(255,255,255,0.12);
+  transform: translate(-50%, -50%);
+  animation: borrowing-book-float 4s ease-in-out infinite;
+  backdrop-filter: blur(12px);
+}
+
+.borrowing-journey-book-cover {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.borrowing-journey-book-cover span {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+}
+
+.borrowing-journey-book-glow {
+  position: absolute;
+  inset: -20px;
+  z-index: -1;
+  border-radius: 50%;
+  background: rgba(214, 180, 107, 0.11);
+  filter: blur(22px);
+}
+
+.borrowing-journey-step {
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  width: 155px;
+  min-height: 58px;
+  align-items: center;
+  gap: 9px;
+  padding: 9px 10px;
+  border: 1px solid rgba(190, 153, 86, 0.17);
+  border-radius: 13px;
+  background: color-mix(in srgb, var(--surface) 82%, #c5a15f 18%);
+  box-shadow: 0 8px 22px rgba(65, 49, 25, 0.055);
+  backdrop-filter: blur(16px);
+  transition:
+    border-color 500ms ease,
+    background 500ms ease,
+    box-shadow 500ms ease,
+    transform 500ms ease;
+}
+
+.borrowing-journey-step-1 {
+  top: 5px;
+  left: 2%;
+}
+
+.borrowing-journey-step-2 {
+  top: 5px;
+  right: 2%;
+}
+
+.borrowing-journey-step-3 {
+  right: 0;
+  bottom: 5px;
+}
+
+.borrowing-journey-step-4 {
+  bottom: 5px;
+  left: 2%;
+}
+
+.borrowing-journey-step-5 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(92px);
+}
+
+.borrowing-journey-step-icon {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 31px;
+  place-items: center;
+  border: 1px solid rgba(190, 153, 86, 0.2);
+  border-radius: 10px;
+  color: #b38b48;
+  background: rgba(190, 153, 86, 0.075);
+  transition: all 500ms ease;
+}
+
+.borrowing-journey-step-copy {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.borrowing-journey-step-number {
+  color: #b38b48;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.borrowing-journey-step-title {
+  color: var(--foreground);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 13px;
+  line-height: 1.15;
+}
+
+.borrowing-journey-step-description {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.4;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.borrowing-journey-step.is-active {
+  border-color: rgba(190, 153, 86, 0.62);
+  background: color-mix(in srgb, var(--surface) 70%, #d6b46b 30%);
+  box-shadow: 0 0 24px rgba(190, 153, 86, 0.16), 0 9px 24px rgba(65, 49, 25, 0.08);
+}
+
+.borrowing-journey-step.is-active .borrowing-journey-step-icon {
+  color: #fffaf0;
+  border-color: #b38b48;
+  background: linear-gradient(145deg, #d6b46b, #a98542);
+  box-shadow: 0 0 16px rgba(190, 153, 86, 0.25);
+}
+
+.borrowing-journey-step.is-complete .borrowing-journey-step-icon {
+  border-color: rgba(190, 153, 86, 0.3);
+  background: rgba(190, 153, 86, 0.13);
+}
+
+.borrowing-journey-footer {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
+  gap: 13px;
+  margin-top: 13px;
+  padding-top: 13px;
+  border-top: 1px solid rgba(190, 153, 86, 0.15);
 }
 
-.reading-room-popular-actions a {
-  display: inline-flex;
-  min-height: 2.25rem;
-  align-items: center;
-  gap: 0.35rem;
+.borrowing-journey-footer > span:first-child {
   color: var(--muted);
-  transition: color 180ms ease;
-}
-
-.reading-room-popular-actions a:hover {
-  color: var(--foreground);
-}
-
-.reading-room-popular-actions .reading-room-popular-borrow {
-  color: var(--primary);
+  font-size: 8px;
   font-weight: 700;
+  letter-spacing: 0.15em;
 }
 
-@media (max-width: 640px) {
-  .reading-room-popular-heading {
-    align-items: flex-start;
-    gap: 1rem;
-  }
+.borrowing-journey-progress {
+  display: flex;
+  flex: 1;
+  gap: 4px;
+}
 
-  .reading-room-popular-heading-title {
-    font-size: clamp(2rem, 8vw, 2.7rem);
-  }
+.borrowing-journey-progress span {
+  height: 2px;
+  flex: 1;
+  border-radius: 10px;
+  background: rgba(190, 153, 86, 0.15);
+  transition: background 500ms ease;
+}
 
-  .reading-room-popular-description {
-    font-size: 0.8rem;
-  }
+.borrowing-journey-progress span.is-filled {
+  background: #c5a15f;
+  box-shadow: 0 0 8px rgba(190, 153, 86, 0.3);
+}
 
-  .reading-room-popular-all {
-    max-width: 6.5rem;
-    font-size: 0.7rem;
-  }
+.borrowing-journey-counter {
+  color: #b38b48;
+  font-family: monospace;
+  font-size: 11px;
+}
 
-  .reading-room-popular-bottom {
-    gap: 0.4rem;
+.borrowing-journey-counter span {
+  color: var(--muted);
+}
+
+@keyframes borrowing-book-float {
+  0%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  50% {
+    transform: translate(-50%, -50%) translateY(-9px);
   }
 }
 
+@media (max-width: 760px) {
+  .borrowing-journey-shell {
+    padding: 24px 18px 16px;
+    border-radius: 21px;
+  }
+
+  .borrowing-journey-content {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .borrowing-journey-intro h2 {
+    font-size: 35px;
+  }
+
+  .borrowing-journey-intro > p {
+    max-width: 440px;
+    font-size: 11px;
+  }
+
+  .borrowing-journey-caption {
+    margin-top: 12px;
+  }
+
+  .borrowing-journey-stage {
+    height: 235px;
+    margin-top: 2px;
+  }
+
+  .borrowing-journey-step {
+    width: 145px;
+  }
+
+  .borrowing-journey-step-1 {
+    left: 0;
+  }
+
+  .borrowing-journey-step-2 {
+    right: 0;
+  }
+
+  .borrowing-journey-step-4 {
+    left: 0;
+  }
+
+  .borrowing-journey-step-3 {
+    right: 0;
+  }
+
+  .borrowing-journey-step-5 {
+    transform: translate(-50%, -50%) translateY(88px);
+  }
+
+  .borrowing-journey-orbit-two {
+    width: 235px;
+    height: 235px;
+  }
+
+  .borrowing-journey-footer {
+    margin-top: 7px;
+  }
+}
+
+@media (max-width: 390px) {
+  .borrowing-journey-section {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .borrowing-journey-shell {
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .borrowing-journey-stage {
+    height: 225px;
+  }
+
+  .borrowing-journey-step {
+    width: 132px;
+    gap: 6px;
+    padding: 8px 7px;
+  }
+
+  .borrowing-journey-step-description {
+    font-size: 7px;
+  }
+
+  .borrowing-journey-step-5 {
+    transform: translate(-50%, -50%) translateY(83px);
+  }
+
+  .borrowing-journey-book {
+    width: 88px;
+    height: 88px;
+  }
+
+  .borrowing-journey-footer > span:first-child {
+    font-size: 7px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .borrowing-journey-book {
+    animation: none;
+  }
+
+  .borrowing-journey-step,
+  .borrowing-journey-step-icon,
+  .borrowing-journey-progress span {
+    transition: none;
+  }
+}

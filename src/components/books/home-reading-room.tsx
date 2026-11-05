@@ -1,6 +1,7 @@
 'use client';
 
 import { Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import BorrowingJourney from './borrowing-journey';
 import Image from 'next/image';
 import Link from 'next/link';
 import {
@@ -96,60 +97,6 @@ function BookCover({
   );
 }
 
-
-function PopularBookCard({
-  book,
-  saved,
-  onToggleSave,
-  rank,
-}: {
-  book: Book;
-  saved: boolean;
-  onToggleSave: (id: string) => void;
-  rank: number;
-}) {
-  const href = `/books/${encodeURIComponent(book._id)}`;
-
-  return (
-    <article className="reading-room-popular-card group min-w-0">
-      <div className="reading-room-popular-art relative">
-        <Link href={href} aria-label={`View ${book.title} by ${book.author}`}>
-          <BookCover book={book} className="reading-room-popular-cover" />
-        </Link>
-        <span className="reading-room-popular-rank">
-          {String(rank).padStart(2, '0')}
-        </span>
-        <button
-          type="button"
-          onClick={() => onToggleSave(book._id)}
-          aria-label={saved ? `Remove ${book.title} from saved books` : `Save ${book.title}`}
-          aria-pressed={saved}
-          className="reading-room-save absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-sm transition hover:border-primary hover:text-primary"
-        >
-          {saved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
-        </button>
-      </div>
-      <div className="pt-4">
-        <p className="reading-room-popular-category">{book.category}</p>
-        <h3 className="reading-room-popular-title">
-          <Link href={href}>{book.title}</Link>
-        </h3>
-        <p className="mt-1 truncate text-sm text-muted">{book.author}</p>
-        <div className="reading-room-popular-bottom">
-          <span className={book.availableCopies > 0 ? 'text-status-success' : 'text-status-danger'}>
-            {book.availableCopies > 0 ? `${book.availableCopies} available` : 'Currently unavailable'}
-          </span>
-          <div className="reading-room-popular-actions">
-            <Link href={href}>Details</Link>
-            <Link href={href} className="reading-room-popular-borrow">
-              Borrow <ArrowRight size={14} />
-            </Link>
-          </div>
-        </div>
-      </div>
-    </article>
-  );
-}
 
 function BookActionCard({
   book,
@@ -646,16 +593,7 @@ export default function HomeReadingRoom() {
     };
   }, [latestReloadCount]);
 
-  const popularBooks = [...books]
-    .sort((first, second) => {
-      const firstBorrowed = first.totalCopies - first.availableCopies;
-      const secondBorrowed = second.totalCopies - second.availableCopies;
-      return (
-        secondBorrowed - firstBorrowed ||
-        Date.parse(second.createdAt) - Date.parse(first.createdAt)
-      );
-    })
-    .slice(0, 4);
+
 
   return (
     <div className="reading-room-paper overflow-hidden">
@@ -668,6 +606,109 @@ export default function HomeReadingRoom() {
 
         </div>
       </section>
+
+      <section
+        id="new-arrivals"
+        className="reading-room-reveal px-5 py-10 sm:px-8 sm:py-14"
+      >
+        <div className="mx-auto max-w-7xl rounded-3xl border border-border bg-surface px-5 py-8 shadow-sm overflow-hidden sm:px-8 sm:py-10 lg:px-10">
+          <SectionHeading
+            eyebrow="Fresh from the shelves"
+            title="New Arrivals"
+            description="The latest books added to the community collection."
+            href="/books?sort=newest"
+            linkText="See every title"
+          />
+          <div className="mt-9">
+            {latestLoading ? (
+              <LoadingBookGrid />
+            ) : latestBooks.length > 0 ? (
+              <div className="reading-room-arrivals">
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <p className="text-xs uppercase tracking-[0.16em] text-muted">
+                    <span className="font-mono text-secondary-accent">
+                      {String(latestBooks.length).padStart(2, '0')}
+                    </span>
+                    {' '}titles on this shelf
+                  </p>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      className="new-arrivals-prev reading-room-carousel-arrow"
+                      aria-label="Previous books"
+                    >
+                      <ChevronLeft size={19} aria-hidden="true" />
+                    </button>
+                    <button
+                      type="button"
+                      className="new-arrivals-next reading-room-carousel-arrow"
+                      aria-label="Next books"
+                    >
+                      <ChevronRight size={19} aria-hidden="true" />
+                    </button>
+                  </div>
+                </div>
+
+                <Swiper
+                  modules={[Navigation, A11y, Autoplay]}
+                  navigation={{
+                    prevEl: '.new-arrivals-prev',
+                    nextEl: '.new-arrivals-next',
+                  }}
+                  slidesPerView={2}
+                  spaceBetween={16}
+                  speed={650}
+                  autoplay={{
+                    delay: 3200,
+                    disableOnInteraction: false,
+                    pauseOnMouseEnter: true,
+                  }}
+                  rewind
+                  grabCursor
+                  watchOverflow
+                  a11y={{
+                    prevSlideMessage: 'Previous books',
+                    nextSlideMessage: 'Next books',
+                  }}
+                  breakpoints={{
+                    640: {
+                      slidesPerView: 3,
+                      spaceBetween: 22,
+                    },
+                    1024: {
+                      slidesPerView: 5,
+                      spaceBetween: 24,
+                    },
+                  }}
+                  className="reading-room-arrivals-swiper"
+                >
+                  {latestBooks.map((book) => (
+                    <SwiperSlide key={book._id} className="h-auto">
+                      <BookActionCard
+                        book={book}
+                        saved={savedBooks.includes(book._id)}
+                        onToggleSave={toggleSavedBookId}
+                        compact
+                      />
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
+              </div>
+            ) : (
+              <BooksEmptyState
+                hasError={latestHasError}
+                onRetry={() => {
+                  setLatestLoading(true);
+                  setLatestReloadCount((count) => count + 1);
+                }}
+              />
+            )}
+          </div>
+        </div>
+      </section>
+
+      <BorrowingJourney />
 
       <section className="reading-room-featured border-y border-border bg-surface py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -834,48 +875,7 @@ export default function HomeReadingRoom() {
         </div>
       </section>
 
-      <section
-        id="popular"
-        className="reading-room-reveal mx-auto max-w-7xl scroll-mt-24 px-5 pb-16 sm:px-8 sm:pb-24"
-      >
-        <div className="reading-room-popular-heading">
-          <div>
-            <p className="reading-room-popular-eyebrow">THE READER'S SHELF</p>
-            <h2 className="reading-room-popular-heading-title">Books Worth Discovering</h2>
-            <p className="reading-room-popular-description">
-              A closer look at the titles readers are checking out right now.
-            </p>
-          </div>
-          <Link href="/books" className="reading-room-popular-all">
-            Explore the collection <ArrowRight size={15} />
-          </Link>
-        </div>
-        <div className="mt-9">
-          {isLoading ? (
-            <LoadingBookGrid />
-          ) : popularBooks.length > 0 ? (
-            <div className="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
-              {popularBooks.map((book, index) => (
-                <PopularBookCard
-                  key={book._id}
-                  book={book}
-                  rank={index + 1}
-                  saved={savedBooks.includes(book._id)}
-                  onToggleSave={toggleSavedBookId}
-                />
-              ))}
-            </div>
-          ) : (
-            <BooksEmptyState
-              hasError={hasError}
-              onRetry={() => {
-                setIsLoading(true);
-                setReloadCount((count) => count + 1);
-              }}
-            />
-          )}
-        </div>
-      </section>
+
 
       <section className="reading-room-collections border-y border-border bg-surface/70 py-16 sm:py-24">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -983,107 +983,6 @@ export default function HomeReadingRoom() {
             );
           })}
         </nav>
-      </section>
-
-      <section
-        id="new-arrivals"
-        className="reading-room-reveal border-t border-border bg-surface/65 py-16 sm:py-24"
-      >
-        <div className="mx-auto max-w-7xl px-5 sm:px-8">
-          <SectionHeading
-            eyebrow="Fresh from the shelves"
-            title="New Arrivals"
-            description="The latest books added to the community collection."
-            href="/books?sort=newest"
-            linkText="See every title"
-          />
-          <div className="mt-9">
-            {latestLoading ? (
-              <LoadingBookGrid />
-            ) : latestBooks.length > 0 ? (
-              <div className="reading-room-arrivals">
-                <div className="mb-6 flex items-center justify-between gap-4">
-                  <p className="text-xs uppercase tracking-[0.16em] text-muted">
-                    <span className="font-mono text-secondary-accent">
-                      {String(latestBooks.length).padStart(2, '0')}
-                    </span>
-                    {' '}titles on this shelf
-                  </p>
-
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      className="new-arrivals-prev reading-room-carousel-arrow"
-                      aria-label="Previous books"
-                    >
-                      <ChevronLeft size={19} aria-hidden="true" />
-                    </button>
-                    <button
-                      type="button"
-                      className="new-arrivals-next reading-room-carousel-arrow"
-                      aria-label="Next books"
-                    >
-                      <ChevronRight size={19} aria-hidden="true" />
-                    </button>
-                  </div>
-                </div>
-
-                <Swiper
-                  modules={[Navigation, A11y, Autoplay]}
-                  navigation={{
-                    prevEl: '.new-arrivals-prev',
-                    nextEl: '.new-arrivals-next',
-                  }}
-                  slidesPerView={2}
-                  spaceBetween={16}
-                  speed={650}
-                  autoplay={{
-                    delay: 3200,
-                    disableOnInteraction: false,
-                    pauseOnMouseEnter: true,
-                  }}
-                  rewind
-                  grabCursor
-                  watchOverflow
-                  a11y={{
-                    prevSlideMessage: 'Previous books',
-                    nextSlideMessage: 'Next books',
-                  }}
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 3,
-                      spaceBetween: 22,
-                    },
-                    1024: {
-                      slidesPerView: 5,
-                      spaceBetween: 24,
-                    },
-                  }}
-                  className="reading-room-arrivals-swiper"
-                >
-                  {latestBooks.map((book) => (
-                    <SwiperSlide key={book._id} className="h-auto">
-                      <BookActionCard
-                        book={book}
-                        saved={savedBooks.includes(book._id)}
-                        onToggleSave={toggleSavedBookId}
-                        compact
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
-              </div>
-            ) : (
-              <BooksEmptyState
-                hasError={latestHasError}
-                onRetry={() => {
-                  setLatestLoading(true);
-                  setLatestReloadCount((count) => count + 1);
-                }}
-              />
-            )}
-          </div>
-        </div>
       </section>
 
       <section className="reading-room-invitation border-t border-border bg-secondary-accent text-primary-foreground">
