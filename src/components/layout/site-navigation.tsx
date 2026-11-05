@@ -131,7 +131,7 @@ export default function SiteNavigation() {
 
   return (
     <header
-      className="relative z-20 bg-transparent px-4 pt-4 sm:px-8"
+      className="sticky top-0 z-50 bg-transparent px-4 pt-4 sm:px-8"
     >
       <nav
         className="mx-auto flex min-h-[76px] max-w-7xl items-center justify-between gap-4 rounded-2xl border border-[#765B49]/15 px-4 shadow-[0_12px_40px_rgba(65,45,30,0.10)] backdrop-blur-2xl dark:border-[#F5E8D4]/20 dark:shadow-[0_12px_40px_rgba(20,12,8,0.18)] sm:px-7"
