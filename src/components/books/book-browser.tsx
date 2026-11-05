@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState, type FormEvent } from 'react';
+import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowLeft, ArrowRight, BookOpen, Search } from 'lucide-react';
+import { ArrowLeft, ArrowRight, BookOpen, Check, ChevronDown, Search } from 'lucide-react';
 
 import BookCard from '@/components/books/book-card';
 import {
@@ -21,6 +21,143 @@ const SORT_LABELS: Record<BookSort, string> = {
   'title-asc': 'Title A to Z',
   'title-desc': 'Title Z to A',
 };
+
+
+interface DropdownFilterProps {
+  label: string;
+  value: string;
+  options: readonly string[];
+  ariaLabel: string;
+  onChange: (value: string) => void;
+}
+
+function DropdownFilter({
+  label,
+  value,
+  options,
+  ariaLabel,
+  onChange,
+}: DropdownFilterProps) {
+  const [isOpen, setIsOpen] = useState(false);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    function handlePointerDown(event: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.key === 'Escape') {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener('mousedown', handlePointerDown);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDown);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isOpen]);
+
+  return (
+    <div ref={containerRef} className="relative min-w-0">
+      <button
+        type="button"
+        aria-label={ariaLabel}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((current) => !current)}
+        className={[
+          'flex w-full min-w-0 items-center justify-between gap-3',
+          'rounded-full border border-border/80 bg-background',
+          'px-4 py-3.5 text-left',
+          'transition-all duration-300',
+          'hover:-translate-y-0.5 hover:border-primary/50',
+          'hover:shadow-[0_5px_16px_rgb(var(--shadow-color)/0.08)]',
+          'focus-visible:outline-none focus-visible:ring-2',
+          'focus-visible:ring-primary/30',
+          isOpen ? 'border-primary/60 shadow-md' : '',
+        ].join(' ')}
+      >
+        <span className="shrink-0 text-xs font-semibold uppercase tracking-[0.1em] text-muted">
+          {label}
+        </span>
+
+        <span className="min-w-0 flex-1 truncate text-right text-sm font-medium text-foreground">
+          {value}
+        </span>
+
+        <ChevronDown
+          size={17}
+          aria-hidden="true"
+          className={[
+            'shrink-0 text-muted transition-transform duration-300',
+            isOpen ? 'rotate-180 text-primary' : '',
+          ].join(' ')}
+        />
+      </button>
+
+      {isOpen && (
+        <div
+          role="listbox"
+          aria-label={ariaLabel}
+          className={[
+            'absolute left-0 top-full z-50 mt-2.5 w-full',
+            'max-h-72 overflow-y-auto overscroll-contain',
+            'rounded-2xl border border-border/80',
+            'bg-background p-2',
+            'shadow-[0_16px_42px_rgb(var(--shadow-color)/0.16)]',
+            'animate-in fade-in slide-in-from-top-1 duration-150',
+          ].join(' ')}
+        >
+          {options.map((option) => {
+            const selected = option === value;
+
+            return (
+              <button
+                key={option}
+                type="button"
+                role="option"
+                aria-selected={selected}
+                onClick={() => {
+                  onChange(option);
+                  setIsOpen(false);
+                }}
+                className={[
+                  'flex w-full items-center justify-between gap-3',
+                  'rounded-xl px-3.5 py-3 text-left text-sm',
+                  'transition-all duration-200',
+                  selected
+                    ? 'bg-primary/10 font-semibold text-primary'
+                    : 'text-foreground hover:bg-surface-secondary hover:text-primary',
+                ].join(' ')}
+              >
+                <span className="min-w-0 truncate">{option}</span>
+
+                {selected && (
+                  <Check
+                    size={16}
+                    aria-hidden="true"
+                    className="shrink-0 text-primary"
+                  />
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
 
 export function BookBrowserSkeleton() {
   return (
@@ -127,30 +264,31 @@ export default function BookBrowser() {
   }
 
   return (
-    <main className="min-h-[calc(100vh-68px)] bg-background text-foreground">
+    <main className="reading-room-paper min-h-[calc(100vh-68px)] text-foreground">
       <section className="mx-auto max-w-7xl px-5 py-10 sm:px-8 sm:py-14">
-        <div className="max-w-2xl">
-          <p className="text-sm font-semibold uppercase tracking-[0.14em] text-primary">
+        <div className="max-w-3xl">
+          <p className="text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-brass">
             The BookNook collection
           </p>
-          <h1 className="mt-3 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
-            Find your next read
+          <h1 className="mt-4 font-serif text-4xl font-medium tracking-tight text-foreground sm:text-6xl">
+            Find your next read.
           </h1>
-          <p className="mt-3 leading-7 text-muted">
-            Browse the shelves by title, author, or category.
+          <p className="mt-4 max-w-xl text-sm leading-7 text-muted sm:text-base">
+            Explore a collection of stories, ideas, and perspectives worth discovering.
           </p>
         </div>
 
-        <div className="mt-8 grid gap-3 border-y border-border py-5 md:grid-cols-[minmax(0,1fr)_220px_220px]">
+        <div className="relative z-30 mt-10 grid gap-3 rounded-3xl border border-border/70 bg-surface/75 p-3 shadow-[0_8px_28px_rgb(var(--shadow-color)/0.055)] backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_12px_34px_rgb(var(--shadow-color)/0.09)] md:grid-cols-[minmax(0,1fr)_220px_220px] md:gap-3 md:p-4">
           <form
             onSubmit={handleSearch}
-            className="flex min-w-0 items-center gap-3 border-b border-border bg-surface px-3"
+            className="group flex min-w-0 items-center gap-3 rounded-2xl border border-border/80 bg-background px-3 transition-all duration-300 hover:border-primary/40 hover:shadow-[0_4px_14px_rgb(var(--shadow-color)/0.06)] focus-within:border-primary/70 focus-within:ring-2 focus-within:ring-primary/10"
           >
             <Search
-              className="shrink-0 text-muted"
+              className="shrink-0 text-muted transition-colors duration-300 group-focus-within:text-primary"
               size={19}
               aria-hidden="true"
             />
+
             <input
               type="search"
               value={searchInput}
@@ -159,58 +297,48 @@ export default function BookBrowser() {
               }
               placeholder="Search title or author"
               aria-label="Search books by title or author"
-              className="min-w-0 flex-1 bg-transparent py-3 outline-none placeholder:text-muted/70"
+              className="min-w-0 flex-1 bg-transparent py-3.5 text-sm text-foreground outline-none placeholder:text-muted/65"
             />
+
             <button
               type="submit"
-              className="border border-primary bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition hover:bg-primary-dark"
+              className="shrink-0 rounded-xl border border-primary bg-primary px-5 py-2.5 text-xs font-semibold uppercase tracking-[0.1em] text-primary-foreground shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-dark hover:bg-primary-dark hover:shadow-md active:translate-y-0"
             >
               Search
             </button>
           </form>
 
-          <label className="flex items-center gap-3 border-b border-border bg-surface px-3 text-sm">
-            <span className="shrink-0 text-muted">Category</span>
-            <select
-              value={category ?? ''}
-              onChange={(event) =>
-                updateQuery({
-                  category: event.target.value || null,
-                  page: null,
-                })
-              }
-              className="min-w-0 flex-1 bg-transparent py-3 font-medium outline-none"
-              aria-label="Filter by category"
-            >
-              <option value="">All categories</option>
-              {BOOK_CATEGORIES.map((item) => (
-                <option key={item} value={item}>
-                  {item}
-                </option>
-              ))}
-            </select>
-          </label>
+          <DropdownFilter
+            label="Category"
+            value={category ?? 'All categories'}
+            options={['All categories', ...BOOK_CATEGORIES]}
+            ariaLabel="Filter by category"
+            onChange={(value) =>
+              updateQuery({
+                category: value === 'All categories' ? null : value,
+                page: null,
+              })
+            }
+          />
 
-          <label className="flex items-center gap-3 border-b border-border bg-surface px-3 text-sm">
-            <span className="shrink-0 text-muted">Sort</span>
-            <select
-              value={sort}
-              onChange={(event) =>
-                updateQuery({ sort: event.target.value, page: null })
+          <DropdownFilter
+            label="Sort"
+            value={SORT_LABELS[sort]}
+            options={BOOK_SORTS.map((item) => SORT_LABELS[item])}
+            ariaLabel="Sort books"
+            onChange={(value) => {
+              const selectedSort = BOOK_SORTS.find(
+                (item) => SORT_LABELS[item] === value,
+              );
+
+              if (selectedSort) {
+                updateQuery({ sort: selectedSort, page: null });
               }
-              className="min-w-0 flex-1 bg-transparent py-3 font-medium outline-none"
-              aria-label="Sort books"
-            >
-              {BOOK_SORTS.map((item) => (
-                <option key={item} value={item}>
-                  {SORT_LABELS[item]}
-                </option>
-              ))}
-            </select>
-          </label>
+            }}
+          />
         </div>
 
-        <div className="mt-6 flex min-h-6 items-center justify-between gap-4 text-sm text-muted">
+        <div className="mt-7 flex min-h-8 items-center justify-between gap-4 border-b border-border/70 pb-3 text-sm text-muted">
           <p>
             {isLoading
               ? 'Loading the collection...'
@@ -277,7 +405,7 @@ export default function BookBrowser() {
           ) : (
             <div className="grid grid-cols-2 gap-x-5 gap-y-9 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 lg:gap-x-8">
               {books.map((book) => (
-                <BookCard key={book._id} book={book} />
+                <BookCard key={book._id} book={book} variant="catalogue" />
               ))}
             </div>
           )}
@@ -286,7 +414,7 @@ export default function BookBrowser() {
         {!isLoading && !error && pagination && pagination.totalPages > 1 && (
           <nav
             aria-label="Book results pages"
-            className="mt-10 flex items-center justify-between border-t border-border pt-5"
+            className="mt-12 flex items-center justify-between border-t border-border/70 pt-6"
           >
             <button
               type="button"
