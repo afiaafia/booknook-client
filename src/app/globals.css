@@ -3,6 +3,8 @@
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
 
+@custom-variant dark (&:where([data-theme='dark'], [data-theme='dark'] *));
+
 :root {
   color-scheme: light;
   --palette-parchment: #eae0ce;
@@ -31,6 +33,9 @@
   --status-success: var(--palette-forest);
   --status-danger: var(--palette-oxblood);
   --shadow-color: 48 37 31;
+  --guest-nav-bg: rgba(250, 246, 239, 0.94);
+  --guest-nav-border: rgba(118, 91, 73, 0.18);
+  --guest-nav-shadow: 0 12px 40px rgba(65, 45, 30, 0.10);
 }
 
 [data-theme='dark'] {
@@ -50,6 +55,9 @@
   --status-success: #a9c2a9;
   --status-danger: #e39b96;
   --shadow-color: 0 0 0;
+  --guest-nav-bg: rgba(45, 32, 26, 0.84);
+  --guest-nav-border: rgba(245, 232, 212, 0.20);
+  --guest-nav-shadow: 0 12px 40px rgba(20, 12, 8, 0.18);
 }
 
 @theme inline {
@@ -2304,3 +2312,2337 @@ button {
     bottom: 1rem;
   }
 }
+
+
+
+/* Formal calligraphy for the guest navbar wordmark */
+.booknook-formal-script {
+  font-family: var(--font-booknook-script), cursive;
+  font-weight: 400;
+  font-style: normal;
+  -webkit-text-stroke: 0.45px currentColor;
+}
+
+
+/* =========================================================
+   BookNook — Royal Espresso / Champagne Gold Banner System
+   ========================================================= */
+
+.reading-room-message-carousel {
+  border: 1px solid rgba(212, 175, 106, 0.24);
+  border-radius: 1.35rem;
+  background: #211914;
+  box-shadow:
+    0 24px 65px rgba(33, 25, 20, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.reading-room-image-slide-photo {
+  background-color: #211914;
+}
+
+.reading-room-image-slide-overlay {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(24, 18, 14, 0.94) 0%,
+      rgba(33, 25, 20, 0.82) 38%,
+      rgba(33, 25, 20, 0.38) 72%,
+      rgba(33, 25, 20, 0.12) 100%
+    );
+}
+
+.reading-room-image-slide-content {
+  width: min(60%, 49rem);
+}
+
+.reading-room-message-eyebrow {
+  color: #e2c58e;
+  letter-spacing: 0.22em;
+}
+
+.reading-room-message-eyebrow span {
+  width: 1.8rem;
+  height: 1px;
+  background: #d4af6a;
+}
+
+.reading-room-message-title {
+  color: #f5ebdd;
+  letter-spacing: -0.035em;
+}
+
+.reading-room-message-title em {
+  color: #e6c88f;
+  font-style: italic;
+}
+
+.reading-room-message-description {
+  color: rgba(245, 235, 221, 0.82);
+  line-height: 1.85;
+}
+
+.reading-room-message-cta {
+  min-height: 3rem;
+  border: 1px solid #d4af6a;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, #e8cf9b, #c49a55);
+  color: #211914;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 8px 25px rgba(212, 175, 106, 0.16);
+  transition:
+    transform 250ms ease,
+    box-shadow 250ms ease,
+    background 250ms ease;
+}
+
+.reading-room-message-cta:hover {
+  transform: translateY(-2px);
+  background: #f0d9a5;
+  color: #211914;
+  box-shadow: 0 12px 30px rgba(212, 175, 106, 0.25);
+}
+
+/* Banner 1 — Discovery: open editorial composition */
+.reading-room-image-slide--discover .reading-room-image-slide-content {
+  max-width: 48rem;
+}
+
+.reading-room-image-slide--discover .reading-room-message-eyebrow {
+  color: #e8cf9b;
+}
+
+/* Banner 2 — Collections: translucent editorial glass panel */
+.reading-room-image-slide--collections .reading-room-image-slide-content {
+  width: min(53%, 43rem);
+  margin-left: auto;
+  margin-right: clamp(1.5rem, 5vw, 4.5rem);
+  padding: clamp(1.75rem, 4vw, 3.25rem);
+  border: 1px solid rgba(232, 207, 155, 0.28);
+  border-radius: 1.25rem;
+  background: rgba(33, 25, 20, 0.48);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.reading-room-image-slide--collections .reading-room-image-slide-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(24, 18, 14, 0.45) 0%,
+    rgba(24, 18, 14, 0.30) 45%,
+    rgba(24, 18, 14, 0.72) 100%
+  );
+}
+
+/* Banner 3 — New arrivals: refined gold editorial accent */
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  width: min(56%, 46rem);
+  border-left: 2px solid rgba(212, 175, 106, 0.85);
+  padding-left: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.reading-room-image-slide--arrivals .reading-room-message-eyebrow {
+  color: #f0d9a5;
+}
+
+.reading-room-image-slide--arrivals .reading-room-message-title em {
+  color: #f0d9a5;
+}
+
+/* Champagne pagination */
+.reading-room-message-pagination button {
+  border-color: rgba(240, 217, 165, 0.8) !important;
+  transition:
+    transform 200ms ease,
+    background-color 200ms ease,
+    box-shadow 200ms ease;
+}
+
+.reading-room-message-pagination button[aria-pressed="true"] {
+  background: #d4af6a !important;
+  border-color: #f0d9a5 !important;
+  box-shadow: 0 0 0 4px rgba(212, 175, 106, 0.16);
+  transform: scale(1.12);
+}
+
+.reading-room-message-pagination button:hover {
+  transform: scale(1.18);
+}
+
+.reading-room-message-pagination button:focus-visible {
+  outline: 2px solid #f0d9a5;
+  outline-offset: 4px;
+}
+
+/* Mobile */
+@media (max-width: 639px) {
+  .reading-room-message-carousel {
+    border-radius: 1rem;
+  }
+
+  .reading-room-image-slide-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(24, 18, 14, 0.08) 0%,
+      rgba(24, 18, 14, 0.28) 28%,
+      rgba(24, 18, 14, 0.86) 56%,
+      rgba(24, 18, 14, 0.97) 100%
+    );
+  }
+
+  .reading-room-image-slide-content,
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 1.5rem 1.35rem 4.8rem;
+  }
+
+  .reading-room-image-slide--collections .reading-room-image-slide-content {
+    width: calc(100% - 2rem);
+    max-width: none;
+    margin: 0 1rem 4.25rem;
+    padding: 1.35rem;
+    border-radius: 1rem;
+    background: rgba(33, 25, 20, 0.72);
+  }
+
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    border-left-width: 2px;
+    padding-left: 1.2rem;
+  }
+
+  .reading-room-message-description {
+    max-width: 32rem;
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .reading-room-message-cta {
+    min-height: 2.8rem;
+    padding: 0.75rem 1.2rem;
+    font-size: 0.66rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-room-message-cta,
+  .reading-room-message-pagination button {
+    transition: none;
+  }
+}
+
+
+
+/* BOOKNOOK — DISTINCT ROYAL BANNER COMPOSITIONS */
+
+.reading-room-message-carousel {
+  overflow: hidden;
+  border: 1px solid rgba(212, 175, 106, 0.3);
+  border-radius: 1.5rem;
+  background: #211914;
+  box-shadow: 0 28px 75px rgba(33, 25, 20, 0.2);
+}
+
+.reading-room-image-slide {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: center;
+  min-height: clamp(420px, 43vw, 570px);
+  overflow: hidden;
+  background: #211914;
+}
+
+.reading-room-image-slide-photo {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  background-color: #211914;
+  background-size: cover;
+  background-repeat: no-repeat;
+  transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+
+.reading-room-image-slide--active .reading-room-image-slide-photo {
+  transform: scale(1.035);
+}
+
+.reading-room-image-slide-overlay {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+}
+
+.reading-room-image-slide-content {
+  position: relative;
+  z-index: 2;
+  width: min(54%, 48rem);
+  padding: clamp(2rem, 5vw, 4.5rem);
+}
+
+.reading-room-message-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-bottom: 1.4rem;
+  color: #e2c58e;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+}
+
+.reading-room-message-eyebrow span {
+  width: 2rem;
+  height: 1px;
+  background: #d4af6a;
+}
+
+.reading-room-message-title {
+  max-width: 13ch;
+  margin: 0;
+  color: #f5ebdd;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.8rem, 5.3vw, 5.4rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.reading-room-message-title em {
+  color: #e6c88f;
+  font-weight: 400;
+}
+
+.reading-room-message-description {
+  max-width: 34rem;
+  margin-top: 1.35rem;
+  color: rgba(245, 235, 221, 0.84);
+  font-size: clamp(0.88rem, 1.1vw, 1rem);
+  line-height: 1.85;
+}
+
+.reading-room-message-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3.1rem;
+  margin-top: 1.6rem;
+  border: 1px solid #d4af6a;
+  border-radius: 999px;
+  padding: 0.85rem 1.5rem;
+  background: linear-gradient(135deg, #ead5a8, #c49a55);
+  color: #211914;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.11em;
+  text-transform: uppercase;
+  box-shadow: 0 9px 28px rgba(212, 175, 106, 0.18);
+  transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
+}
+
+.reading-room-message-cta:hover {
+  transform: translateY(-3px);
+  background: #f0d9a5;
+  color: #211914;
+  box-shadow: 0 14px 34px rgba(212, 175, 106, 0.28);
+}
+
+/* 01 — DISCOVER: cinematic editorial layout */
+
+.reading-room-image-slide--discover {
+  justify-content: flex-start;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-photo {
+  background-position: center;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-overlay {
+  background:
+    linear-gradient(90deg,
+      rgba(25, 18, 14, 0.96) 0%,
+      rgba(25, 18, 14, 0.83) 34%,
+      rgba(25, 18, 14, 0.36) 63%,
+      rgba(25, 18, 14, 0.04) 100%);
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-content {
+  width: min(58%, 49rem);
+  margin-left: clamp(1rem, 3vw, 2.5rem);
+}
+
+/* 02 — COLLECTIONS: floating glass editorial panel */
+
+.reading-room-image-slide--collections {
+  justify-content: flex-end;
+}
+
+.reading-room-image-slide--collections .reading-room-image-slide-photo {
+  background-position: center;
+}
+
+.reading-room-image-slide--collections .reading-room-image-slide-overlay {
+  background:
+    linear-gradient(90deg,
+      rgba(25, 18, 14, 0.08) 0%,
+      rgba(25, 18, 14, 0.2) 42%,
+      rgba(25, 18, 14, 0.68) 100%);
+}
+
+.reading-room-image-slide--collections .reading-room-image-slide-content {
+  width: min(43%, 35rem);
+  margin: 2.5rem clamp(1.5rem, 6vw, 6rem) 2.5rem 0;
+  border: 1px solid rgba(230, 200, 143, 0.38);
+  border-radius: 1.4rem;
+  padding: clamp(1.8rem, 3.5vw, 3rem);
+  background: rgba(33, 25, 20, 0.72);
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.reading-room-image-slide--collections .reading-room-message-title {
+  font-size: clamp(2.5rem, 4.2vw, 4.2rem);
+}
+
+/* 03 — NEW ARRIVALS: understated gold editorial feature */
+
+.reading-room-image-slide--arrivals {
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.reading-room-image-slide--arrivals .reading-room-image-slide-photo {
+  background-position: center;
+}
+
+.reading-room-image-slide--arrivals .reading-room-image-slide-overlay {
+  background:
+    linear-gradient(0deg,
+      rgba(25, 18, 14, 0.94) 0%,
+      rgba(25, 18, 14, 0.74) 34%,
+      rgba(25, 18, 14, 0.14) 78%,
+      rgba(25, 18, 14, 0.04) 100%);
+}
+
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  width: min(52%, 43rem);
+  margin: 0 0 clamp(2rem, 5vw, 4.5rem) clamp(1.5rem, 7vw, 7rem);
+  border-left: 2px solid #d4af6a;
+  padding: 0.5rem 0 0.5rem clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.reading-room-image-slide--arrivals .reading-room-message-title {
+  max-width: 12ch;
+}
+
+/* Pagination */
+
+.reading-room-message-pagination {
+  position: relative;
+  z-index: 5;
+}
+
+.reading-room-message-pagination .swiper-pagination-bullet {
+  background: rgba(240, 217, 165, 0.5);
+  opacity: 1;
+}
+
+.reading-room-message-pagination .swiper-pagination-bullet-active {
+  background: #d4af6a;
+}
+
+/* Responsive composition */
+
+@media (max-width: 760px) {
+  .reading-room-image-slide {
+    min-height: 490px;
+    align-items: flex-end;
+  }
+
+  .reading-room-image-slide-content {
+    width: 100%;
+    padding: 2rem 1.5rem 2.5rem;
+  }
+
+  .reading-room-message-title {
+    max-width: 12ch;
+    font-size: clamp(2.5rem, 10vw, 3.8rem);
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-overlay {
+    background: linear-gradient(0deg,
+      rgba(25, 18, 14, 0.97) 0%,
+      rgba(25, 18, 14, 0.78) 55%,
+      rgba(25, 18, 14, 0.16) 100%);
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-content {
+    width: 100%;
+    margin: 0;
+  }
+
+  .reading-room-image-slide--collections {
+    align-items: flex-end;
+  }
+
+  .reading-room-image-slide--collections .reading-room-image-slide-overlay {
+    background: linear-gradient(0deg,
+      rgba(25, 18, 14, 0.92) 0%,
+      rgba(25, 18, 14, 0.45) 70%,
+      rgba(25, 18, 14, 0.08) 100%);
+  }
+
+  .reading-room-image-slide--collections .reading-room-image-slide-content {
+    width: auto;
+    margin: 1rem;
+    padding: 1.5rem;
+    border-radius: 1.1rem;
+  }
+
+  .reading-room-image-slide--collections .reading-room-message-title {
+    font-size: clamp(2.3rem, 9vw, 3.4rem);
+  }
+
+  .reading-room-image-slide--arrivals {
+    align-items: flex-end;
+  }
+
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    width: auto;
+    margin: 0 1.5rem 2.5rem;
+    padding-left: 1.2rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-room-image-slide-photo,
+  .reading-room-message-cta {
+    transition: none;
+  }
+
+  .reading-room-image-slide--active .reading-room-image-slide-photo {
+    transform: none;
+  }
+}
+
+
+/* BOOKNOOK — MOBILE FULL IMAGE FIX */
+
+@media (max-width: 760px) {
+  .reading-room-image-slide {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-top: clamp(190px, 62vw, 290px);
+    overflow: hidden;
+  }
+
+  .reading-room-image-slide-photo {
+    inset: 0 0 auto;
+    width: 100%;
+    height: clamp(190px, 62vw, 290px);
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    background-color: #211914;
+    transform: none !important;
+  }
+
+  .reading-room-image-slide-overlay {
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(33, 25, 20, 0) 0%,
+      rgba(33, 25, 20, 0.04) 55%,
+      rgba(33, 25, 20, 0.92) 100%
+    ) !important;
+  }
+
+  .reading-room-image-slide-content {
+    position: relative;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 1.5rem 1.35rem 2rem !important;
+    border-radius: 0 !important;
+    border-top: 1px solid rgba(212, 175, 106, 0.18);
+    background: #211914;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    width: 100% !important;
+    margin: 0 !important;
+  }
+
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    border-left: 0;
+    border-top: 1px solid #d4af6a;
+    padding-left: 1.35rem !important;
+  }
+
+  .reading-room-message-title {
+    max-width: 15ch;
+    font-size: clamp(2.25rem, 9vw, 3.2rem);
+    line-height: 1.08;
+  }
+
+  .reading-room-message-description {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+
+  .reading-room-message-cta {
+    margin-top: 1.2rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .reading-room-image-slide {
+    padding-top: 190px;
+  }
+
+  .reading-room-image-slide-photo {
+    height: 190px;
+  }
+
+  .reading-room-image-slide-content {
+    padding: 1.25rem 1rem 1.6rem !important;
+  }
+
+  .reading-room-message-title {
+    font-size: 2.2rem;
+  }
+}
+
+
+
+/* BOOKNOOK — UNIFIED THREE-BANNER DESIGN */
+
+/* Shared desktop composition */
+.reading-room-image-slide {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start !important;
+  min-height: clamp(420px, 43vw, 570px);
+}
+
+.reading-room-image-slide-photo {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat;
+}
+
+.reading-room-image-slide-overlay {
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(33, 25, 20, 0.94) 0%,
+    rgba(33, 25, 20, 0.78) 38%,
+    rgba(33, 25, 20, 0.32) 75%,
+    rgba(33, 25, 20, 0.12) 100%
+  ) !important;
+}
+
+.reading-room-image-slide-content,
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  width: min(58%, 48rem) !important;
+  max-width: 48rem !important;
+  margin: 0 !important;
+  padding: clamp(2rem, 5vw, 4.5rem) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  border-left: 0 !important;
+  border-top: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-photo,
+.reading-room-image-slide--collections .reading-room-image-slide-photo,
+.reading-room-image-slide--arrivals .reading-room-image-slide-photo {
+  background-position: center !important;
+}
+
+.reading-room-message-title {
+  max-width: 13ch;
+  font-size: clamp(2.8rem, 5.3vw, 5.4rem);
+  line-height: 1.04;
+  color: #f5ebdd;
+}
+
+.reading-room-message-description {
+  max-width: 34rem;
+  color: rgba(245, 235, 221, 0.84);
+  line-height: 1.85;
+}
+
+/* Shared mobile composition: complete image above content */
+@media (max-width: 760px) {
+  .reading-room-image-slide {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-top: clamp(190px, 62vw, 290px);
+    overflow: hidden;
+  }
+
+  .reading-room-image-slide-photo {
+    inset: 0 0 auto !important;
+    width: 100%;
+    height: clamp(190px, 62vw, 290px);
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    background-color: #211914;
+    transform: none !important;
+  }
+
+  .reading-room-image-slide-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(33, 25, 20, 0) 0%,
+      rgba(33, 25, 20, 0.05) 55%,
+      rgba(33, 25, 20, 0.92) 100%
+    ) !important;
+  }
+
+  .reading-room-image-slide-content,
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    position: relative;
+    display: block;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 1.5rem 1.35rem 2rem !important;
+    border: 0 !important;
+    border-top: 1px solid rgba(212, 175, 106, 0.2) !important;
+    border-radius: 0 !important;
+    background: #211914 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .reading-room-message-title {
+    max-width: 15ch;
+    font-size: clamp(2.25rem, 9vw, 3.2rem);
+    line-height: 1.08;
+  }
+
+  .reading-room-message-description {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+}
+
+@media (max-width: 380px) {
+  .reading-room-image-slide {
+    padding-top: 190px;
+  }
+
+  .reading-room-image-slide-photo {
+    height: 190px;
+  }
+
+  .reading-room-image-slide-content,
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    padding: 1.25rem 1rem 1.6rem !important;
+  }
+
+  .reading-room-message-title {
+    font-size: 2.2rem;
+  }
+}
+
+
+
+/* BOOKNOOK — CONSISTENT LEFT GLASS CAPSULES */
+
+/* All three banners: identical left-aligned glass card */
+.reading-room-image-slide {
+  justify-content: flex-start !important;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  position: relative;
+  width: min(52%, 43rem) !important;
+  max-width: 43rem !important;
+  margin: 2rem 0 2rem clamp(1.5rem, 5vw, 5rem) !important;
+  padding: clamp(1.8rem, 3.2vw, 3rem) !important;
+  border: 1px solid rgba(230, 200, 143, 0.4) !important;
+  border-radius: 1.4rem !important;
+  border-left: 1px solid rgba(230, 200, 143, 0.4) !important;
+  border-top: 1px solid rgba(230, 200, 143, 0.4) !important;
+  background: rgba(33, 25, 20, 0.74) !important;
+  box-shadow:
+    0 22px 60px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.09) !important;
+  backdrop-filter: blur(18px) !important;
+  -webkit-backdrop-filter: blur(18px) !important;
+  text-align: left !important;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  align-self: center;
+}
+
+.reading-room-image-slide--discover .reading-room-message-title,
+.reading-room-image-slide--collections .reading-room-message-title,
+.reading-room-image-slide--arrivals .reading-room-message-title {
+  max-width: 13ch;
+  font-size: clamp(2.5rem, 4.4vw, 4.5rem);
+  text-align: left;
+}
+
+.reading-room-image-slide--discover .reading-room-message-description,
+.reading-room-image-slide--collections .reading-room-message-description,
+.reading-room-image-slide--arrivals .reading-room-message-description {
+  text-align: left;
+}
+
+/* Keep the same card design on phones, below the fully visible image */
+@media (max-width: 760px) {
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 1rem 1rem !important;
+    padding: 1.5rem !important;
+    border: 1px solid rgba(230, 200, 143, 0.4) !important;
+    border-radius: 1.2rem !important;
+    background: rgba(33, 25, 20, 0.94) !important;
+    text-align: left !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-title,
+  .reading-room-image-slide--collections .reading-room-message-title,
+  .reading-room-image-slide--arrivals .reading-room-message-title {
+    max-width: 15ch;
+    font-size: clamp(2.2rem, 8.5vw, 3.1rem);
+  }
+}
+
+
+
+/* BOOKNOOK — GLASS CAPSULE CTA CLIPPING FIX */
+
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  box-sizing: border-box;
+  padding-bottom: clamp(2.5rem, 4vw, 3.5rem) !important;
+  overflow: visible !important;
+}
+
+.reading-room-image-slide--discover .reading-room-message-cta,
+.reading-room-image-slide--collections .reading-room-message-cta,
+.reading-room-image-slide--arrivals .reading-room-message-cta {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.25rem;
+  line-height: 1.2;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+@media (max-width: 760px) {
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    padding: 1.5rem 1.35rem 2.5rem !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-cta,
+  .reading-room-image-slide--collections .reading-room-message-cta,
+  .reading-room-image-slide--arrivals .reading-room-message-cta {
+    margin-top: 1.2rem;
+    margin-bottom: 0.25rem;
+  }
+}
+
+
+
+
+/* BOOKNOOK — ROYAL EDITORIAL GLASS DESIGN */
+
+.reading-room-message-carousel {
+  border: 1px solid rgba(212, 175, 106, 0.32);
+  border-radius: 1.5rem;
+  background: #211914;
+  box-shadow:
+    0 28px 75px rgba(33, 25, 20, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.07);
+}
+
+.reading-room-image-slide {
+  justify-content: flex-start !important;
+  min-height: clamp(440px, 43vw, 570px);
+  background: #211914;
+}
+
+.reading-room-image-slide-photo {
+  inset: 0;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  transition: transform 1.2s cubic-bezier(.2,.7,.2,1);
+}
+
+.reading-room-image-slide--active .reading-room-image-slide-photo {
+  transform: scale(1.025);
+}
+
+.reading-room-image-slide-overlay {
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    rgba(25, 18, 14, 0.82) 0%,
+    rgba(25, 18, 14, 0.56) 36%,
+    rgba(25, 18, 14, 0.16) 70%,
+    rgba(25, 18, 14, 0.04) 100%
+  ) !important;
+}
+
+/* One consistent editorial glass panel */
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  box-sizing: border-box;
+  position: relative;
+  width: min(46%, 39rem) !important;
+  max-width: 39rem !important;
+  margin: 2.5rem 0 2.5rem clamp(1.5rem, 5vw, 5rem) !important;
+  padding: clamp(2rem, 3.5vw, 3.25rem) !important;
+  border: 1px solid rgba(230, 200, 143, 0.34) !important;
+  border-radius: 1.35rem !important;
+  background: linear-gradient(
+    145deg,
+    rgba(57, 42, 32, 0.82),
+    rgba(33, 25, 20, 0.76)
+  ) !important;
+  box-shadow:
+    0 24px 65px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.10) !important;
+  backdrop-filter: blur(20px) saturate(115%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(115%) !important;
+  text-align: left !important;
+  overflow: visible !important;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  align-self: center;
+}
+
+/* Editorial typography */
+.reading-room-message-eyebrow {
+  color: #e5c98f !important;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.23em;
+  text-transform: uppercase;
+}
+
+.reading-room-message-eyebrow span {
+  background: #d4af6a !important;
+}
+
+.reading-room-image-slide--discover .reading-room-message-title,
+.reading-room-image-slide--collections .reading-room-message-title,
+.reading-room-image-slide--arrivals .reading-room-message-title {
+  max-width: 12ch;
+  margin: 0;
+  color: #f5ebdd !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.6rem, 4.5vw, 4.6rem) !important;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-align: left;
+  text-wrap: balance;
+}
+
+.reading-room-message-title em {
+  color: #e6c88f !important;
+  font-weight: 400;
+}
+
+.reading-room-message-description {
+  max-width: 31rem;
+  margin-top: 1.2rem;
+  color: rgba(245, 235, 221, 0.84) !important;
+  font-size: 0.92rem;
+  line-height: 1.8;
+  text-align: left;
+}
+
+/* Champagne gold CTA */
+.reading-room-image-slide--discover .reading-room-message-cta,
+.reading-room-image-slide--collections .reading-room-message-cta,
+.reading-room-image-slide--arrivals .reading-room-message-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.7rem;
+  min-height: 3rem;
+  margin-top: 1.4rem;
+  margin-bottom: 0.15rem;
+  padding: 0.8rem 1.4rem;
+  border: 1px solid #e4c98f;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ead5a8, #c49a55);
+  color: #211914 !important;
+  font-size: 0.69rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  line-height: 1.2;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(212, 175, 106, 0.17);
+  transition: transform 250ms ease, box-shadow 250ms ease, background 250ms ease;
+}
+
+.reading-room-image-slide--discover .reading-room-message-cta:hover,
+.reading-room-image-slide--collections .reading-room-message-cta:hover,
+.reading-room-image-slide--arrivals .reading-room-message-cta:hover {
+  transform: translateY(-2px);
+  background: #f0d9a5;
+  box-shadow: 0 12px 30px rgba(212, 175, 106, 0.27);
+}
+
+/* Consistent full-image mobile presentation */
+@media (max-width: 760px) {
+  .reading-room-image-slide {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-top: clamp(190px, 62vw, 290px);
+    overflow: hidden;
+  }
+
+  .reading-room-image-slide-photo {
+    inset: 0 0 auto !important;
+    width: 100%;
+    height: clamp(190px, 62vw, 290px);
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    background-color: #211914;
+    transform: none !important;
+  }
+
+  .reading-room-image-slide-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(33, 25, 20, 0) 0%,
+      rgba(33, 25, 20, 0.04) 50%,
+      rgba(33, 25, 20, 0.82) 100%
+    ) !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    display: block;
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 1rem 1rem !important;
+    padding: 1.5rem 1.35rem 2rem !important;
+    border: 1px solid rgba(230, 200, 143, 0.34) !important;
+    border-radius: 1.2rem !important;
+    background: linear-gradient(
+      145deg,
+      rgba(57, 42, 32, 0.96),
+      rgba(33, 25, 20, 0.96)
+    ) !important;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-title,
+  .reading-room-image-slide--collections .reading-room-message-title,
+  .reading-room-image-slide--arrivals .reading-room-message-title {
+    max-width: 13ch;
+    font-size: clamp(2.25rem, 8.5vw, 3.2rem) !important;
+  }
+
+  .reading-room-message-description {
+    font-size: 0.86rem;
+    line-height: 1.7;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-cta,
+  .reading-room-image-slide--collections .reading-room-message-cta,
+  .reading-room-image-slide--arrivals .reading-room-message-cta {
+    margin-top: 1.15rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .reading-room-image-slide {
+    padding-top: 190px;
+  }
+
+  .reading-room-image-slide-photo {
+    height: 190px;
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    padding: 1.25rem 1rem 1.7rem !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-title,
+  .reading-room-image-slide--collections .reading-room-message-title,
+  .reading-room-image-slide--arrivals .reading-room-message-title {
+    font-size: 2.2rem !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-room-image-slide-photo,
+  .reading-room-message-cta {
+    transition: none;
+  }
+
+  .reading-room-image-slide--active .reading-room-image-slide-photo {
+    transform: none;
+  }
+}
+
+
+/* BOOKNOOK — OPEN LEFT EDITORIAL BANNERS */
+
+/* Remove all capsule/card styling and align content to the left */
+.reading-room-image-slide {
+  justify-content: flex-start !important;
+}
+
+.reading-room-image-slide--discover .reading-room-image-slide-content,
+.reading-room-image-slide--collections .reading-room-image-slide-content,
+.reading-room-image-slide--arrivals .reading-room-image-slide-content {
+  box-sizing: border-box;
+  position: relative;
+  align-self: center;
+  width: min(53%, 46rem) !important;
+  max-width: 46rem !important;
+  margin: 0 0 0 clamp(1.5rem, 5vw, 5rem) !important;
+  padding: 2rem 1rem 2rem 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  overflow: visible !important;
+  text-align: left !important;
+}
+
+.reading-room-image-slide--discover .reading-room-message-title,
+.reading-room-image-slide--collections .reading-room-message-title,
+.reading-room-image-slide--arrivals .reading-room-message-title {
+  max-width: 12ch;
+  color: #f5ebdd !important;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(2.8rem, 5vw, 5rem) !important;
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.045em;
+  text-align: left !important;
+}
+
+.reading-room-image-slide--discover .reading-room-message-description,
+.reading-room-image-slide--collections .reading-room-message-description,
+.reading-room-image-slide--arrivals .reading-room-message-description {
+  max-width: 33rem;
+  color: rgba(245, 235, 221, 0.9) !important;
+  text-align: left !important;
+}
+
+.reading-room-image-slide--discover .reading-room-message-eyebrow,
+.reading-room-image-slide--collections .reading-room-message-eyebrow,
+.reading-room-image-slide--arrivals .reading-room-message-eyebrow {
+  color: #e5c98f !important;
+}
+
+/* Keep the image visible behind the open editorial text */
+.reading-room-image-slide-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(25, 18, 14, 0.88) 0%,
+    rgba(25, 18, 14, 0.67) 38%,
+    rgba(25, 18, 14, 0.24) 72%,
+    rgba(25, 18, 14, 0.06) 100%
+  ) !important;
+}
+
+/* Mobile: full image first, open text underneath */
+@media (max-width: 760px) {
+  .reading-room-image-slide {
+    display: block;
+    min-height: 0;
+    height: auto;
+    padding-top: clamp(190px, 62vw, 290px);
+    overflow: hidden;
+  }
+
+  .reading-room-image-slide-photo {
+    inset: 0 0 auto !important;
+    width: 100%;
+    height: clamp(190px, 62vw, 290px);
+    background-size: contain !important;
+    background-position: center top !important;
+    background-repeat: no-repeat !important;
+    background-color: #211914;
+    transform: none !important;
+  }
+
+  .reading-room-image-slide-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(33, 25, 20, 0) 0%,
+      rgba(33, 25, 20, 0.05) 50%,
+      rgba(33, 25, 20, 0.9) 100%
+    ) !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-image-slide-content,
+  .reading-room-image-slide--collections .reading-room-image-slide-content,
+  .reading-room-image-slide--arrivals .reading-room-image-slide-content {
+    width: auto !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 1.5rem 1.35rem 2rem !important;
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: #211914 !important;
+    box-shadow: none !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    text-align: left !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-title,
+  .reading-room-image-slide--collections .reading-room-message-title,
+  .reading-room-image-slide--arrivals .reading-room-message-title {
+    max-width: 13ch;
+    font-size: clamp(2.3rem, 9vw, 3.3rem) !important;
+  }
+
+  .reading-room-image-slide--discover .reading-room-message-description,
+  .reading-room-image-slide--collections .reading-room-message-description,
+  .reading-room-image-slide--arrivals .reading-room-message-description {
+    font-size: 0.88rem;
+    line-height: 1.7;
+  }
+}
+
+/* BOOKNOOK — THE CURATOR'S SHELF */
+.reading-room-featured {
+  position: relative;
+  background-image:
+    radial-gradient(
+      ellipse at 12% 18%,
+      color-mix(in srgb, #d4af6a 10%, transparent),
+      transparent 42%
+    ),
+    radial-gradient(
+      ellipse at 90% 82%,
+      color-mix(in srgb, #8b7157 7%, transparent),
+      transparent 38%
+    );
+}
+
+.reading-room-featured-layout {
+  align-items: center;
+  gap: clamp(1.5rem, 3vw, 3rem);
+}
+
+.reading-room-featured-cover {
+  width: min(100%, 17rem);
+  filter: drop-shadow(0 18px 22px rgb(33 25 20 / 0.16));
+  transition:
+    transform 350ms ease,
+    filter 350ms ease;
+}
+
+.reading-room-featured-cover:hover {
+  transform: translateY(-6px) rotate(-1deg);
+  filter: drop-shadow(0 24px 26px rgb(33 25 20 / 0.2));
+}
+
+.reading-room-featured-copy > p:first-child {
+  color: #a27b42;
+  letter-spacing: 0.2em;
+  font-size: 0.68rem;
+}
+
+.reading-room-featured-copy h2 {
+  max-width: 15ch;
+  letter-spacing: -0.045em;
+  text-wrap: balance;
+}
+
+.reading-room-featured-copy > p:nth-of-type(2) {
+  color: var(--foreground);
+  opacity: 0.78;
+}
+
+.reading-room-featured-copy > p:nth-of-type(3) {
+  max-width: 58ch;
+  line-height: 1.9;
+}
+
+.reading-room-featured-copy > p:nth-of-type(4) {
+  color: #a27b42;
+}
+
+.reading-room-featured-copy > a {
+  border-color: #c5a36a;
+  transition:
+    color 200ms ease,
+    border-color 200ms ease,
+    gap 200ms ease;
+}
+
+.reading-room-featured-support {
+  gap: 1rem;
+}
+
+.reading-room-featured-thumb {
+  display: block;
+  transition: transform 250ms ease;
+}
+
+.reading-room-featured-thumb:hover {
+  transform: translateY(-4px);
+}
+
+.reading-room-featured-thumb .reading-room-cover {
+  box-shadow:
+    0 12px 24px rgb(33 25 20 / 0.13),
+    inset 4px 0 7px rgb(33 25 20 / 0.1);
+}
+
+@media (min-width: 1024px) {
+  .reading-room-featured-support {
+    gap: 1.25rem;
+    padding-left: 1.5rem;
+    border-color: color-mix(in srgb, #d4af6a 42%, var(--border));
+  }
+
+  .reading-room-featured-thumb .reading-room-cover {
+    max-width: 8rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-room-featured-cover,
+  .reading-room-featured-thumb {
+    transition: none;
+  }
+}
+
+/* BOOKNOOK — FEATURED BOOKS STANDALONE CARD */
+.reading-room-featured {
+  border: 0;
+  background: transparent;
+  padding: 2.5rem 1.25rem;
+}
+
+.reading-room-featured > div {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, #d4af6a 38%, var(--border));
+  border-radius: 24px;
+  padding: clamp(1.25rem, 3.5vw, 3.25rem);
+  background:
+    radial-gradient(ellipse at 8% 8%, rgb(212 175 106 / 0.12), transparent 42%),
+    radial-gradient(ellipse at 95% 95%, rgb(139 113 87 / 0.07), transparent 38%),
+    var(--surface);
+  box-shadow:
+    0 18px 48px rgb(33 25 20 / 0.07),
+    0 2px 8px rgb(33 25 20 / 0.035);
+}
+
+@media (min-width: 640px) {
+  .reading-room-featured {
+    padding: 3.5rem 2rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .reading-room-featured {
+    padding: 4rem 2rem;
+  }
+}
+
+@media (max-width: 639px) {
+  .reading-room-featured {
+    padding-inline: 1rem;
+  }
+
+  .reading-room-featured > div {
+    border-radius: 18px;
+  }
+}
+
+/* BOOKNOOK — INDIVIDUAL CURATOR BOOK CARDS */
+.reading-room-featured-support {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  border: 0;
+  padding: 0;
+}
+
+.reading-room-mini-card-cover {
+  display: flex;
+  min-height: 11rem;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 0.75rem 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, #d4af6a 22%, var(--border));
+  background: color-mix(in srgb, var(--background) 75%, #d4af6a 8%);
+}
+
+.reading-room-mini-card-cover .reading-room-cover {
+  width: min(100%, 7.5rem);
+  box-shadow: 0 12px 22px rgb(33 25 20 / 0.16);
+}
+
+.reading-room-mini-card-info {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.9rem;
+}
+
+.reading-room-mini-card-category {
+  color: #a27b42;
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.reading-room-mini-card-title {
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--foreground);
+  font-family: var(--font-serif);
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.35;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.reading-room-mini-card-author {
+  overflow: hidden;
+  color: var(--muted);
+  font-size: 0.75rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.reading-room-mini-card-status {
+  margin-top: 0.25rem;
+  color: #a27b42;
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.reading-room-featured-thumb {
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, #d4af6a 32%, var(--border));
+  border-radius: 15px;
+  background: var(--background);
+  box-shadow: 0 7px 20px rgb(33 25 20 / 0.045);
+  transition:
+    transform 250ms ease,
+    border-color 250ms ease,
+    box-shadow 250ms ease;
+}
+
+.reading-room-featured-thumb:hover {
+  transform: translateY(-5px);
+  border-color: #c5a36a;
+  box-shadow: 0 15px 28px rgb(33 25 20 / 0.1);
+}
+
+@media (min-width: 1024px) {
+  .reading-room-featured-support {
+    grid-template-columns: 1fr;
+  }
+
+  .reading-room-mini-card-cover {
+    min-height: 9rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .reading-room-featured-support {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* BOOKNOOK — DYNAMIC FEATURED BOOK SLIDESHOW */
+.reading-room-featured-slideshow {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(1rem, 3vw, 2.25rem);
+  border: 1px solid color-mix(in srgb, #d4af6a 35%, var(--border));
+  border-radius: 26px;
+  background:
+    radial-gradient(ellipse at 16% 45%, rgb(212 175 106 / 13%), transparent 42%),
+    linear-gradient(125deg, color-mix(in srgb, var(--background) 92%, #d4af6a 8%), var(--surface));
+  box-shadow: 0 18px 55px rgb(33 25 20 / 7%);
+}
+
+.reading-room-featured-swiper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.reading-room-feature-slide {
+  position: relative;
+  display: grid;
+  min-height: 420px;
+  grid-template-columns: minmax(220px, 0.8fr) minmax(0, 1.2fr);
+  align-items: center;
+  gap: clamp(2rem, 6vw, 6rem);
+  overflow: hidden;
+  padding: clamp(1rem, 3vw, 2.5rem);
+  isolation: isolate;
+}
+
+.reading-room-feature-art {
+  position: relative;
+  display: flex;
+  min-height: 350px;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5rem 1rem 1rem;
+  border: 1px solid rgb(212 175 106 / 25%);
+  border-radius: 20px;
+  background:
+    radial-gradient(ellipse at 50% 45%, rgb(212 175 106 / 24%), transparent 58%),
+    linear-gradient(145deg, rgb(33 25 20 / 5%), rgb(212 175 106 / 10%));
+}
+
+.reading-room-feature-edition {
+  position: absolute;
+  top: 1.1rem;
+  left: 1.2rem;
+  color: var(--muted);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.17em;
+}
+
+.reading-room-feature-cover-link {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: min(68%, 220px);
+  transform: rotate(-3deg);
+  transition: transform 450ms ease;
+}
+
+.reading-room-feature-cover-link:hover {
+  transform: rotate(0deg) translateY(-7px);
+}
+
+.reading-room-feature-cover-link .reading-room-cover {
+  width: 100%;
+  border-radius: 3px;
+  box-shadow: 15px 22px 38px rgb(33 25 20 / 25%);
+}
+
+.reading-room-feature-index {
+  position: absolute;
+  right: 1.2rem;
+  bottom: 0.7rem;
+  color: color-mix(in srgb, #d4af6a 65%, transparent);
+  font-family: var(--font-serif);
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  line-height: 1;
+}
+
+.reading-room-feature-details {
+  position: relative;
+  z-index: 1;
+  max-width: 620px;
+  padding: 1.5rem 0;
+}
+
+.reading-room-feature-category {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: #a27b42;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.reading-room-feature-category span {
+  color: #d4af6a;
+  font-size: 1rem;
+}
+
+.reading-room-feature-title {
+  margin-top: 1.1rem;
+  color: var(--foreground);
+  font-family: var(--font-serif);
+  font-size: clamp(2.25rem, 5vw, 4.5rem);
+  font-weight: 500;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  overflow-wrap: anywhere;
+}
+
+.reading-room-feature-author {
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-style: italic;
+}
+
+.reading-room-feature-description {
+  display: -webkit-box;
+  max-width: 510px;
+  overflow: hidden;
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.9;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+}
+
+.reading-room-feature-availability {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
+  color: var(--secondary-accent);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.reading-room-feature-availability-dot {
+  width: 7px;
+  height: 7px;
+  flex: 0 0 7px;
+  border-radius: 50%;
+  background: #b77c65;
+}
+
+.reading-room-feature-availability-dot.is-available {
+  background: #668d68;
+  box-shadow: 0 0 0 4px rgb(102 141 104 / 12%);
+}
+
+.reading-room-feature-cta {
+  display: inline-flex;
+  min-height: 46px;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.8rem;
+  padding: 0 1.25rem;
+  border: 1px solid #b9955b;
+  border-radius: 3px;
+  color: var(--foreground);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  transition: color 220ms ease, background 220ms ease, gap 220ms ease;
+}
+
+.reading-room-feature-cta:hover {
+  gap: 1.35rem;
+  background: #d4af6a;
+  color: #211914;
+}
+
+.reading-room-feature-watermark {
+  position: absolute;
+  z-index: -1;
+  right: 1rem;
+  bottom: -4rem;
+  color: color-mix(in srgb, #d4af6a 9%, transparent);
+  font-family: var(--font-booknook-script), cursive;
+  font-size: clamp(12rem, 25vw, 23rem);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.reading-room-feature-controls {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  border-top: 1px solid color-mix(in srgb, #d4af6a 28%, var(--border));
+  padding: 1.25rem clamp(0.5rem, 3vw, 2.5rem) 0;
+}
+
+.reading-room-feature-pagination {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.reading-room-feature-pagination-dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: color-mix(in srgb, #8b7157 40%, var(--border));
+  cursor: pointer;
+  transition: width 300ms ease, background 300ms ease;
+}
+
+.reading-room-feature-pagination-dot.is-active {
+  width: 32px;
+  background: #d4af6a;
+}
+
+.reading-room-feature-counter {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  white-space: nowrap;
+}
+
+.reading-room-feature-counter span {
+  padding: 0 0.25rem;
+  color: #d4af6a;
+}
+
+.reading-room-feature-arrows {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reading-room-feature-arrow {
+  display: inline-flex;
+  width: 38px;
+  height: 38px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid color-mix(in srgb, #d4af6a 45%, var(--border));
+  border-radius: 50%;
+  color: var(--foreground);
+  transition: color 200ms ease, background 200ms ease, border-color 200ms ease;
+}
+
+.reading-room-feature-arrow:hover:not(:disabled) {
+  border-color: #d4af6a;
+  background: #d4af6a;
+  color: #211914;
+}
+
+.reading-room-feature-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+@media (max-width: 700px) {
+  .reading-room-featured-slideshow {
+    padding: 0.8rem;
+    border-radius: 19px;
+  }
+
+  .reading-room-feature-slide {
+    min-height: 0;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.5rem;
+    padding: 0.5rem 0.35rem 1.25rem;
+  }
+
+  .reading-room-feature-art {
+    min-height: 280px;
+  }
+
+  .reading-room-feature-cover-link {
+    width: min(48%, 165px);
+  }
+
+  .reading-room-feature-details {
+    padding: 0.25rem 0.5rem 1rem;
+  }
+
+  .reading-room-feature-title {
+    font-size: clamp(2rem, 9vw, 3rem);
+  }
+
+  .reading-room-feature-description {
+    margin-top: 1rem;
+  }
+
+  .reading-room-feature-watermark {
+    right: 0;
+    bottom: -2rem;
+    font-size: 12rem;
+  }
+
+  .reading-room-feature-controls {
+    gap: 0.7rem;
+    padding: 1rem 0.4rem 0;
+  }
+
+  .reading-room-feature-counter {
+    font-size: 0.6rem;
+  }
+
+  .reading-room-feature-arrow {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reading-room-feature-cover-link,
+  .reading-room-feature-pagination-dot,
+  .reading-room-feature-cta,
+  .reading-room-feature-arrow {
+    transition: none;
+  }
+}
+
+/* BOOKNOOK — COMPACT FEATURED SLIDESHOW */
+.reading-room-featured {
+  padding-block: 2.5rem !important;
+}
+
+.reading-room-featured-slideshow {
+  padding: 1rem 1.5rem;
+  border-radius: 20px;
+}
+
+.reading-room-feature-slide {
+  min-height: 290px;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding: 0.75rem 1rem;
+}
+
+.reading-room-feature-art {
+  min-height: 255px;
+  padding: 2rem 0.75rem 0.75rem;
+  border-radius: 15px;
+}
+
+.reading-room-feature-cover-link {
+  width: min(58%, 155px);
+}
+
+.reading-room-feature-edition {
+  top: 0.8rem;
+  left: 0.9rem;
+  font-size: 0.52rem;
+}
+
+.reading-room-feature-index {
+  right: 0.8rem;
+  bottom: 0.4rem;
+  font-size: 3.5rem;
+}
+
+.reading-room-feature-details {
+  padding: 0.5rem 0;
+}
+
+.reading-room-feature-title {
+  margin-top: 0.65rem;
+  font-size: clamp(2rem, 3.5vw, 3.25rem);
+}
+
+.reading-room-feature-author {
+  margin-top: 0.45rem;
+  font-size: 1rem;
+}
+
+.reading-room-feature-description {
+  margin-top: 0.85rem;
+  font-size: 0.82rem;
+  line-height: 1.65;
+  -webkit-line-clamp: 3;
+}
+
+.reading-room-feature-availability {
+  margin-top: 0.8rem;
+  font-size: 0.62rem;
+}
+
+.reading-room-feature-cta {
+  min-height: 39px;
+  margin-top: 1rem;
+  padding-inline: 1rem;
+  font-size: 0.68rem;
+}
+
+.reading-room-feature-controls {
+  padding-top: 0.8rem;
+}
+
+.reading-room-feature-watermark {
+  font-size: 13rem;
+}
+
+@media (max-width: 700px) {
+  .reading-room-featured {
+    padding-block: 1.75rem !important;
+  }
+
+  .reading-room-featured-slideshow {
+    padding: 0.75rem;
+  }
+
+  .reading-room-feature-slide {
+    min-height: 0;
+    grid-template-columns: minmax(105px, 0.72fr) minmax(0, 1.28fr);
+    align-items: center;
+    gap: 1rem;
+    padding: 0.25rem 0.1rem 0.8rem;
+  }
+
+  .reading-room-feature-art {
+    min-height: 205px;
+    padding: 1.8rem 0.35rem 0.5rem;
+  }
+
+  .reading-room-feature-cover-link {
+    width: min(78%, 125px);
+  }
+
+  .reading-room-feature-edition {
+    top: 0.6rem;
+    left: 0.5rem;
+    font-size: 0.42rem;
+    letter-spacing: 0.08em;
+  }
+
+  .reading-room-feature-index {
+    right: 0.4rem;
+    bottom: 0.25rem;
+    font-size: 2rem;
+  }
+
+  .reading-room-feature-details {
+    min-width: 0;
+    padding: 0.4rem 0.2rem;
+  }
+
+  .reading-room-feature-category {
+    gap: 0.35rem;
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+  }
+
+  .reading-room-feature-title {
+    margin-top: 0.5rem;
+    font-size: clamp(1.35rem, 6vw, 2rem);
+    line-height: 1.1;
+  }
+
+  .reading-room-feature-author {
+    margin-top: 0.35rem;
+    font-size: 0.85rem;
+  }
+
+  .reading-room-feature-description {
+    margin-top: 0.65rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    -webkit-line-clamp: 3;
+  }
+
+  .reading-room-feature-availability {
+    gap: 0.4rem;
+    margin-top: 0.6rem;
+    font-size: 0.52rem;
+    letter-spacing: 0.02em;
+  }
+
+  .reading-room-feature-cta {
+    min-height: 35px;
+    gap: 0.45rem;
+    margin-top: 0.75rem;
+    padding-inline: 0.65rem;
+    font-size: 0.58rem;
+  }
+
+  .reading-room-feature-watermark {
+    font-size: 8rem;
+  }
+
+  .reading-room-feature-controls {
+    gap: 0.55rem;
+    padding: 0.7rem 0.2rem 0;
+  }
+
+  .reading-room-feature-arrow {
+    width: 31px;
+    height: 31px;
+  }
+}
+
+@media (max-width: 380px) {
+  .reading-room-feature-slide {
+    grid-template-columns: 100px minmax(0, 1fr);
+    gap: 0.75rem;
+  }
+
+  .reading-room-feature-art {
+    min-height: 180px;
+  }
+
+  .reading-room-feature-title {
+    font-size: 1.25rem;
+  }
+
+  .reading-room-feature-description {
+    -webkit-line-clamp: 2;
+  }
+}
+
+/* BOOKNOOK — TIGHTER FEATURED SECTION */
+.reading-room-featured {
+  padding-top: 1.5rem !important;
+  padding-bottom: 1.5rem !important;
+}
+
+.reading-room-featured > div {
+  padding-top: 0.75rem;
+  padding-bottom: 0.75rem;
+}
+
+.reading-room-featured .reading-room-section-heading {
+  padding-bottom: 0.75rem;
+}
+
+.reading-room-featured-slideshow {
+  margin-top: 1rem;
+  padding: 0.65rem 1rem;
+}
+
+.reading-room-feature-slide {
+  min-height: 235px;
+  gap: 2rem;
+  padding: 0.4rem 0.65rem;
+}
+
+.reading-room-feature-art {
+  min-height: 205px;
+}
+
+.reading-room-feature-cover-link {
+  width: min(52%, 130px);
+}
+
+.reading-room-feature-title {
+  margin-top: 0.45rem;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+}
+
+.reading-room-feature-description {
+  margin-top: 0.6rem;
+  line-height: 1.5;
+  -webkit-line-clamp: 2;
+}
+
+.reading-room-feature-availability {
+  margin-top: 0.55rem;
+}
+
+.reading-room-feature-cta {
+  min-height: 34px;
+  margin-top: 0.7rem;
+}
+
+.reading-room-feature-controls {
+  padding-top: 0.55rem;
+}
+
+@media (max-width: 700px) {
+  .reading-room-featured {
+    padding-top: 1rem !important;
+    padding-bottom: 1rem !important;
+  }
+
+  .reading-room-featured > div {
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
+  }
+
+  .reading-room-feature-slide {
+    min-height: 0;
+    gap: 0.7rem;
+    padding: 0.2rem 0.1rem 0.5rem;
+  }
+
+  .reading-room-feature-art {
+    min-height: 165px;
+  }
+
+  .reading-room-feature-cover-link {
+    width: min(75%, 105px);
+  }
+
+  .reading-room-feature-details {
+    padding: 0.2rem 0;
+  }
+
+  .reading-room-feature-title {
+    margin-top: 0.35rem;
+    font-size: clamp(1.2rem, 5vw, 1.65rem);
+  }
+
+  .reading-room-feature-description {
+    margin-top: 0.4rem;
+    font-size: 0.68rem;
+    line-height: 1.4;
+    -webkit-line-clamp: 2;
+  }
+
+  .reading-room-feature-availability {
+    margin-top: 0.4rem;
+  }
+
+  .reading-room-feature-cta {
+    min-height: 31px;
+    margin-top: 0.5rem;
+  }
+
+  .reading-room-feature-controls {
+    padding-top: 0.45rem;
+  }
+}
+
+/* ===== Editorial Popular Shelf ===== */
+
+.reading-room-popular-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.reading-room-popular-eyebrow,
+.reading-room-popular-category {
+  color: var(--secondary-accent);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.reading-room-popular-heading-title {
+  margin-top: 0.7rem;
+  color: var(--foreground);
+  font-family: Georgia, serif;
+  font-size: clamp(2.2rem, 5vw, 3.7rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1.06;
+}
+
+.reading-room-popular-description {
+  max-width: 34rem;
+  margin-top: 0.85rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.reading-room-popular-all {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.5rem;
+  color: var(--primary);
+  font-size: 0.8rem;
+  font-weight: 650;
+  transition: gap 180ms ease;
+}
+
+.reading-room-popular-all:hover {
+  gap: 0.8rem;
+}
+
+.reading-room-popular-art {
+  isolation: isolate;
+}
+
+.reading-room-popular-cover {
+  border-radius: 2px;
+  transition:
+    transform 500ms cubic-bezier(0.2, 0.7, 0.2, 1),
+    box-shadow 350ms ease;
+}
+
+.reading-room-popular-card:hover .reading-room-popular-cover,
+.reading-room-popular-card:focus-within .reading-room-popular-cover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 38px rgb(var(--shadow-color) / 0.2);
+}
+
+.reading-room-popular-rank {
+  position: absolute;
+  top: 0.8rem;
+  left: 0.8rem;
+  z-index: 2;
+  display: grid;
+  width: 2.25rem;
+  height: 2.25rem;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--foreground);
+  font-family: Georgia, serif;
+  font-size: 0.9rem;
+}
+
+.reading-room-popular-category {
+  letter-spacing: 0.14em;
+}
+
+.reading-room-popular-title {
+  display: -webkit-box;
+  overflow: hidden;
+  margin-top: 0.45rem;
+  color: var(--foreground);
+  font-family: Georgia, serif;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 500;
+  line-height: 1.25;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.reading-room-popular-title a {
+  transition: color 180ms ease;
+}
+
+.reading-room-popular-title a:hover {
+  color: var(--primary);
+}
+
+.reading-room-popular-bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.reading-room-popular-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.reading-room-popular-actions a {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: 0.35rem;
+  color: var(--muted);
+  transition: color 180ms ease;
+}
+
+.reading-room-popular-actions a:hover {
+  color: var(--foreground);
+}
+
+.reading-room-popular-actions .reading-room-popular-borrow {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .reading-room-popular-heading {
+    align-items: flex-start;
+    gap: 1rem;
+  }
+
+  .reading-room-popular-heading-title {
+    font-size: clamp(2rem, 8vw, 2.7rem);
+  }
+
+  .reading-room-popular-description {
+    font-size: 0.8rem;
+  }
+
+  .reading-room-popular-all {
+    max-width: 6.5rem;
+    font-size: 0.7rem;
+  }
+
+  .reading-room-popular-bottom {
+    gap: 0.4rem;
+  }
+}
+

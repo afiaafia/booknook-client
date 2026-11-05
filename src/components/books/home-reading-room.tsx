@@ -4,8 +4,7 @@ import { Suspense, useEffect, useRef, useState, useSyncExternalStore } from 'rea
 import Image from 'next/image';
 import Link from 'next/link';
 import {
-  ArrowDownRight,
-  ArrowRight,
+    ArrowRight,
   Bookmark,
   BookmarkCheck,
   BookOpen,
@@ -94,6 +93,61 @@ function BookCover({
         </div>
       )}
     </div>
+  );
+}
+
+
+function PopularBookCard({
+  book,
+  saved,
+  onToggleSave,
+  rank,
+}: {
+  book: Book;
+  saved: boolean;
+  onToggleSave: (id: string) => void;
+  rank: number;
+}) {
+  const href = `/books/${encodeURIComponent(book._id)}`;
+
+  return (
+    <article className="reading-room-popular-card group min-w-0">
+      <div className="reading-room-popular-art relative">
+        <Link href={href} aria-label={`View ${book.title} by ${book.author}`}>
+          <BookCover book={book} className="reading-room-popular-cover" />
+        </Link>
+        <span className="reading-room-popular-rank">
+          {String(rank).padStart(2, '0')}
+        </span>
+        <button
+          type="button"
+          onClick={() => onToggleSave(book._id)}
+          aria-label={saved ? `Remove ${book.title} from saved books` : `Save ${book.title}`}
+          aria-pressed={saved}
+          className="reading-room-save absolute right-3 top-3 z-10 inline-flex h-10 w-10 items-center justify-center rounded-full border border-border bg-surface text-foreground shadow-sm transition hover:border-primary hover:text-primary"
+        >
+          {saved ? <BookmarkCheck size={18} /> : <Bookmark size={18} />}
+        </button>
+      </div>
+      <div className="pt-4">
+        <p className="reading-room-popular-category">{book.category}</p>
+        <h3 className="reading-room-popular-title">
+          <Link href={href}>{book.title}</Link>
+        </h3>
+        <p className="mt-1 truncate text-sm text-muted">{book.author}</p>
+        <div className="reading-room-popular-bottom">
+          <span className={book.availableCopies > 0 ? 'text-status-success' : 'text-status-danger'}>
+            {book.availableCopies > 0 ? `${book.availableCopies} available` : 'Currently unavailable'}
+          </span>
+          <div className="reading-room-popular-actions">
+            <Link href={href}>Details</Link>
+            <Link href={href} className="reading-room-popular-borrow">
+              Borrow <ArrowRight size={14} />
+            </Link>
+          </div>
+        </div>
+      </div>
+    </article>
   );
 }
 
@@ -216,25 +270,34 @@ function SectionHeading({
 
 const HERO_MESSAGES = [
   {
-    eyebrow: 'A LIBRARY FOR THE CURIOUS',
+    variant: 'discover',
+    eyebrow: 'THE ART OF FINDING YOUR NEXT READ',
     image: '/images/banners/banner-discover-normalized.png',
-    title: 'Every book opens a different',
-    emphasis: 'world.',
-    description: 'Discover stories, explore new subjects, and find your next favourite read.',
+    title: 'A new world is waiting',
+    emphasis: 'between pages.',
+    description: 'Discover remarkable stories, explore new subjects, and find a book worth remembering.',
+    cta: 'Discover Books',
+    href: '/books',
   },
   {
-    eyebrow: 'FOLLOW YOUR CURIOSITY',
+    variant: 'collections',
+    eyebrow: 'CURATED FOR EVERY CURIOSITY',
     image: '/images/banners/banner-explore-normalized.png',
-    title: 'Find the story that',
-    emphasis: 'finds you.',
-    description: 'Explore a thoughtful collection of books across genres, ideas, and interests.',
+    title: 'Find a shelf that feels',
+    emphasis: 'like yours.',
+    description: 'Explore Fiction and discover stories selected for every kind of curious reader.',
+    cta: 'Explore Fiction',
+    href: '/books?category=Fiction',
   },
   {
-    eyebrow: 'INDEPENDENT SHELVES · SHARED STORIES',
+    variant: 'arrivals',
+    eyebrow: 'FRESH FROM THE SHELVES',
     image: '/images/banners/banner-share-normalized.png',
-    title: 'Good books deserve to be',
-    emphasis: 'shared.',
-    description: 'Discover, borrow, and share books with a community of curious readers.',
+    title: 'Make room for your next',
+    emphasis: 'favorite.',
+    description: 'There is always another story to discover. Explore the books waiting on our shelves.',
+    cta: 'Browse Books',
+    href: '/books',
   },
 ] as const;
 
@@ -262,7 +325,7 @@ function HeroMessageCarousel() {
       <Suspense
         fallback={
           <div className="reading-room-message-swiper reading-room-message-swiper-fallback">
-            <div className="reading-room-image-slide reading-room-image-slide--active">
+            <div className="reading-room-image-slide reading-room-image-slide--active reading-room-image-slide--discover">
               <div
                 className="reading-room-image-slide-photo"
                 style={{ backgroundImage: `url("${HERO_MESSAGES[0].image}")` }}
@@ -280,8 +343,8 @@ function HeroMessageCarousel() {
                 <p className="reading-room-message-description">
                   {HERO_MESSAGES[0].description}
                 </p>
-                <Link href="/books" className="reading-room-message-cta">
-                  Browse Books <ArrowRight size={16} aria-hidden="true" />
+                <Link href={HERO_MESSAGES[0].href} className="reading-room-message-cta">
+                  {HERO_MESSAGES[0].cta} <ArrowRight size={16} aria-hidden="true" />
                 </Link>
               </div>
             </div>
@@ -299,7 +362,7 @@ function HeroMessageCarousel() {
           reducedMotion
             ? false
             : {
-                delay: 3000,
+                delay: 5000,
                 disableOnInteraction: false,
                 pauseOnMouseEnter: true,
               }
@@ -325,7 +388,7 @@ function HeroMessageCarousel() {
           return (
             <SwiperSlide key={slide.image}>
               <div
-                className={`reading-room-image-slide${
+                className={`reading-room-image-slide reading-room-image-slide--${slide.variant}${
                   isActive ? ' reading-room-image-slide--active' : ''
                 }`}
                 aria-hidden={!isActive}
@@ -359,8 +422,8 @@ function HeroMessageCarousel() {
                     {slide.description}
                   </p>
 
-                  <Link href="/books" className="reading-room-message-cta">
-                    Browse Books <ArrowRight size={16} aria-hidden="true" />
+                  <Link href={slide.href} className="reading-room-message-cta">
+                    {slide.cta} <ArrowRight size={16} aria-hidden="true" />
                   </Link>
                 </div>
               </div>
@@ -399,20 +462,22 @@ function HeroMessageCarousel() {
               onClick={() => swiperRef.current?.slideToLoop(index)}
               aria-label={`Go to banner ${index + 1}`}
               aria-pressed={isActive}
+              className="reading-room-message-dot"
               style={{
                 appearance: 'none',
                 display: 'block',
-                flex: '0 0 11px',
-                width: 11,
-                height: 11,
-                minWidth: 11,
+                flex: isActive ? '0 0 34px' : '0 0 9px',
+                width: isActive ? 34 : 9,
+                height: 5,
+                minWidth: isActive ? 34 : 9,
                 padding: 0,
-                border: '1.5px solid rgba(255, 250, 241, 0.9)',
-                borderRadius: '50%',
-                background: isActive ? '#e3c38b' : 'transparent',
+                border: 0,
+                borderRadius: '999px',
+                background: isActive ? '#D4AF6A' : 'rgba(139, 113, 87, 0.75)',
                 cursor: 'pointer',
-              }}
-            />
+                boxShadow: isActive ? '0 0 10px rgba(212, 175, 106, 0.28)' : 'none',
+                transition: 'width 350ms ease, flex-basis 350ms ease, background-color 350ms ease, box-shadow 350ms ease',
+              }}            />
           );
         })}
       </div>
@@ -523,6 +588,8 @@ export default function HomeReadingRoom() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [reloadCount, setReloadCount] = useState(0);
+  const [featuredIndex, setFeaturedIndex] = useState(0);
+  const featuredSwiperRef = useRef<SwiperInstance | null>(null);
   const [latestBooks, setLatestBooks] = useState<Book[]>([]);
   const [latestLoading, setLatestLoading] = useState(true);
   const [latestHasError, setLatestHasError] = useState(false);
@@ -596,42 +663,7 @@ export default function HomeReadingRoom() {
         <div className="mx-auto max-w-7xl px-5 pb-14 pt-12 sm:px-8 sm:pb-20 sm:pt-16 lg:py-20">
           <div className="relative z-10 w-full">
                         <HeroMessageCarousel />
-<form
-              action="/books"
-              method="GET"
-              className="reading-room-search mt-8 flex max-w-xl flex-col gap-3 border-y border-border py-3 sm:flex-row sm:items-center sm:gap-4 sm:px-3"
-            >
-              <div className="flex min-w-0 flex-1 items-center gap-3">
-                <Search
-                  className="shrink-0 text-secondary-accent"
-                  size={20}
-                  aria-hidden="true"
-                />
-                <label className="sr-only" htmlFor="reading-room-search">
-                  Search titles or authors
-                </label>
-                <input
-                  id="reading-room-search"
-                  name="search"
-                  type="search"
-                  placeholder="Search a title or author"
-                  className="min-h-11 min-w-0 flex-1 border-0 bg-transparent font-serif text-lg text-foreground outline-none placeholder:text-muted sm:text-xl"
-                />
-              </div>
-              <button
-                type="submit"
-                className="inline-flex min-h-11 items-center justify-center gap-2 border border-primary px-4 text-xs font-semibold uppercase tracking-[0.1em] text-primary transition hover:bg-primary hover:text-primary-foreground"
-              >
-                Search <ArrowRight size={14} aria-hidden="true" />
-              </button>
-            </form>
-            <div className="mt-10 flex items-center gap-4 border-t border-border pt-5 text-xs text-muted">
-              <span className="font-semibold uppercase tracking-[0.14em] text-foreground">
-                Independent shelves · Shared stories
-              </span>
-              <span aria-hidden="true">✦</span>
-              <span>Stories move better together.</span>
-            </div>
+
           </div>
 
         </div>
@@ -640,9 +672,9 @@ export default function HomeReadingRoom() {
       <section className="reading-room-featured border-y border-border bg-surface py-14 sm:py-20">
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionHeading
-            eyebrow="The editor's table"
-            title="Featured Edition"
-            description="A closer look at a title from the shelves, chosen from the latest books in the collection."
+            eyebrow="The curator's selection"
+            title="Stories Worth Discovering"
+            description="A considered collection of books selected for curious minds."
           />
           {isLoading ? (
             <div className="mt-8 grid animate-pulse gap-8 md:grid-cols-[minmax(12rem,0.65fr)_1fr]">
@@ -654,60 +686,146 @@ export default function HomeReadingRoom() {
                 <div className="h-24 bg-surface-secondary" />
               </div>
             </div>
-          ) : books[0] ? (
-            <div className="reading-room-featured-layout mt-8">
-              <Link
-                href={`/books/${encodeURIComponent(books[0]._id)}`}
-                className="reading-room-featured-cover block"
-                aria-label={`View ${books[0].title} by ${books[0].author}`}
+          ) : books.length > 0 ? (
+            <div className="reading-room-featured-slideshow mt-8">
+              <Swiper
+                modules={[A11y, Autoplay]}
+                slidesPerView={1}
+                spaceBetween={24}
+                speed={750}
+                loop={books.length > 1}
+                autoplay={
+                  books.length > 1
+                    ? {
+                        delay: 4500,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                      }
+                    : false
+                }
+                grabCursor
+                watchOverflow
+                className="reading-room-featured-swiper"
+                onSwiper={(swiper) => {
+                  featuredSwiperRef.current = swiper;
+                  setFeaturedIndex(swiper.realIndex);
+                }}
+                onSlideChange={(swiper) => setFeaturedIndex(swiper.realIndex)}
+                a11y={{
+                  prevSlideMessage: 'Previous featured book',
+                  nextSlideMessage: 'Next featured book',
+                }}
               >
-                <BookCover book={books[0]} />
-              </Link>
-              <div className="reading-room-featured-copy">
-                <p className="text-xs font-semibold uppercase tracking-[0.17em] text-brass">
-                  {books[0].category} · From the bindery
-                </p>
-                <h2 className="mt-3 max-w-2xl font-serif text-4xl leading-[1.02] text-foreground sm:text-5xl lg:text-6xl">
-                  {books[0].title}
-                </h2>
-                <p className="mt-3 font-serif text-xl italic text-muted">
-                  by {books[0].author}
-                </p>
-                <p className="mt-6 max-w-2xl text-sm leading-7 text-muted sm:text-base">
-                  {books[0].description}
-                </p>
-                <p className="mt-5 text-xs font-semibold uppercase tracking-[0.12em] text-secondary-accent">
-                  {books[0].availableCopies > 0
-                    ? `${books[0].availableCopies} of ${books[0].totalCopies} copies available`
-                    : 'Currently on loan'}
-                </p>
-                <Link
-                  href={`/books/${encodeURIComponent(books[0]._id)}`}
-                  className="mt-7 inline-flex min-h-11 items-center gap-2 border-b border-primary pb-1 text-sm font-semibold text-primary transition hover:gap-3"
-                >
-                  Read the bookplate <ArrowRight size={15} aria-hidden="true" />
-                </Link>
-              </div>
-              <div
-                className="reading-room-featured-support"
-                aria-label="More from the collection"
-              >
-                {books.slice(1, 4).map((book) => (
-                  <Link
-                    key={book._id}
-                    href={`/books/${encodeURIComponent(book._id)}`}
-                    className="reading-room-featured-thumb group"
-                    aria-label={`View ${book.title} by ${book.author}`}
-                  >
-                    <BookCover book={book} />
-                    <span className="mt-2 block truncate font-serif text-sm text-foreground group-hover:text-primary">
-                      {book.title}
-                    </span>
-                  </Link>
+                {books.slice(0, 5).map((book, index) => (
+                  <SwiperSlide key={book._id}>
+                    <article className="reading-room-feature-slide">
+                      <div className="reading-room-feature-art">
+                        <span className="reading-room-feature-edition">
+                          BOOKNOOK · FEATURED EDITION
+                        </span>
+                        <Link
+                          href={`/books/${encodeURIComponent(book._id)}`}
+                          className="reading-room-feature-cover-link"
+                          aria-label={`View ${book.title} by ${book.author}`}
+                        >
+                          <BookCover book={book} />
+                        </Link>
+                        <span className="reading-room-feature-index">
+                          {String(index + 1).padStart(2, '0')}
+                        </span>
+                      </div>
+
+                      <div className="reading-room-feature-details">
+                        <p className="reading-room-feature-category">
+                          <span aria-hidden="true">✦</span>
+                          {book.category}
+                        </p>
+
+                        <h3 className="reading-room-feature-title">
+                          {book.title}
+                        </h3>
+
+                        <p className="reading-room-feature-author">
+                          by {book.author}
+                        </p>
+
+                        <p className="reading-room-feature-description">
+                          {book.description || 'A new story awaits discovery on the BookNook shelves.'}
+                        </p>
+
+                        <div className="reading-room-feature-availability">
+                          <span
+                            className={
+                              book.availableCopies > 0
+                                ? 'reading-room-feature-availability-dot is-available'
+                                : 'reading-room-feature-availability-dot'
+                            }
+                            aria-hidden="true"
+                          />
+                          {book.availableCopies > 0
+                            ? `${book.availableCopies} of ${book.totalCopies} copies available`
+                            : 'Currently on loan'}
+                        </div>
+
+                        <Link
+                          href={`/books/${encodeURIComponent(book._id)}`}
+                          className="reading-room-feature-cta"
+                        >
+                          Discover this book
+                          <ArrowRight size={16} aria-hidden="true" />
+                        </Link>
+                      </div>
+
+                      <span className="reading-room-feature-watermark" aria-hidden="true">
+                        B.
+                      </span>
+                    </article>
+                  </SwiperSlide>
                 ))}
+              </Swiper>
+
+              <div className="reading-room-feature-controls">
+                <div className="reading-room-feature-pagination" role="group" aria-label="Choose featured book">
+                  {books.slice(0, 5).map((book, index) => (
+                    <button
+                      key={book._id}
+                      type="button"
+                      onClick={() => featuredSwiperRef.current?.slideToLoop(index)}
+                      className={`reading-room-feature-pagination-dot${featuredIndex === index ? ' is-active' : ''}`}
+                      aria-label={`Show featured book ${index + 1}: ${book.title}`}
+                      aria-pressed={featuredIndex === index}
+                    />
+                  ))}
+                </div>
+
+                <span className="reading-room-feature-counter" aria-live="polite">
+                  {String(featuredIndex + 1).padStart(2, '0')}
+                  <span aria-hidden="true"> / </span>
+                  {String(Math.min(books.length, 5)).padStart(2, '0')}
+                </span>
+
+                <div className="reading-room-feature-arrows">
+                  <button
+                    type="button"
+                    onClick={() => featuredSwiperRef.current?.slidePrev()}
+                    aria-label="Previous featured book"
+                    className="reading-room-feature-arrow"
+                    disabled={books.length < 2}
+                  >
+                    <ChevronLeft size={19} aria-hidden="true" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => featuredSwiperRef.current?.slideNext()}
+                    aria-label="Next featured book"
+                    className="reading-room-feature-arrow"
+                    disabled={books.length < 2}
+                  >
+                    <ChevronRight size={19} aria-hidden="true" />
+                  </button>
+                </div>
               </div>
-            </div>
-          ) : (
+            </div>          ) : (
             <BooksEmptyState
               hasError={hasError}
               onRetry={() => setReloadCount((count) => count + 1)}
@@ -720,22 +838,28 @@ export default function HomeReadingRoom() {
         id="popular"
         className="reading-room-reveal mx-auto max-w-7xl scroll-mt-24 px-5 pb-16 sm:px-8 sm:pb-24"
       >
-        <SectionHeading
-          eyebrow="Most checked out right now"
-          title="Popular in the Collection"
-          description="Ranked by copies currently out with readers, with recent additions to break a tie."
-          href="/books"
-          linkText="The full collection"
-        />
-        <div className="mt-8">
+        <div className="reading-room-popular-heading">
+          <div>
+            <p className="reading-room-popular-eyebrow">THE READER'S SHELF</p>
+            <h2 className="reading-room-popular-heading-title">Books Worth Discovering</h2>
+            <p className="reading-room-popular-description">
+              A closer look at the titles readers are checking out right now.
+            </p>
+          </div>
+          <Link href="/books" className="reading-room-popular-all">
+            Explore the collection <ArrowRight size={15} />
+          </Link>
+        </div>
+        <div className="mt-9">
           {isLoading ? (
             <LoadingBookGrid />
           ) : popularBooks.length > 0 ? (
             <div className="grid grid-cols-2 gap-x-5 gap-y-10 sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-8">
-              {popularBooks.map((book) => (
-                <BookActionCard
+              {popularBooks.map((book, index) => (
+                <PopularBookCard
                   key={book._id}
                   book={book}
+                  rank={index + 1}
                   saved={savedBooks.includes(book._id)}
                   onToggleSave={toggleSavedBookId}
                 />
@@ -824,7 +948,7 @@ export default function HomeReadingRoom() {
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-muted sm:justify-self-end sm:text-base sm:leading-7">
-            Browse by the shelf you're drawn to. Each genre opens the existing
+            Browse by the shelf you&apos;re drawn to. Each genre opens the existing
             catalogue with that category selected.
           </p>
         </div>
@@ -969,7 +1093,7 @@ export default function HomeReadingRoom() {
               The shelves are open
             </p>
             <h2 className="mt-3 font-serif text-4xl leading-tight sm:text-5xl">
-              There's always room for one more story.
+              There&apos;s always room for one more story.
             </h2>
             <p className="mt-3 max-w-xl text-sm leading-6 text-primary-foreground/75 sm:text-base">
               Browse the community collection and find a book that feels like it
