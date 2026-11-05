@@ -9,6 +9,7 @@ import {
   ArrowRight,
   BookOpen,
   LoaderCircle,
+  List,
   Pencil,
   Plus,
   Trash2,
@@ -414,6 +415,15 @@ export default function BookManagement({
   const requestKey = `${sessionUserId ?? ''}:${reloadCount}`;
   const [managementList, setManagementList] =
     useState<ManagementListState | null>(null);
+
+  const [viewMode, setViewMode] = useState<'shelf' | 'ledger'>('ledger');
+
+  useEffect(() => {
+    if (window.matchMedia('(min-width: 768px)').matches) {
+      setViewMode('shelf');
+    }
+  }, []);
+
   const currentList =
     managementList?.requestKey === requestKey ? managementList : null;
   const books = currentList?.books ?? [];
@@ -554,202 +564,251 @@ export default function BookManagement({
 
   return (
     <main className="min-h-[calc(100vh-68px)] bg-background text-foreground">
-      <section className="mx-auto max-w-6xl px-5 py-9 sm:px-8 sm:py-12">
-        <div className="flex flex-col justify-between gap-5 border-b border-border pb-7 sm:flex-row sm:items-end">
+      <section className="mx-auto max-w-7xl px-5 py-9 sm:px-8 sm:py-12">
+        <header className="flex flex-col gap-6 border-b border-border pb-8 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <Link
               href="/dashboard"
-              className="inline-flex items-center gap-2 text-sm font-medium text-muted transition hover:text-primary"
+              className="inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.14em] text-muted transition hover:text-primary"
             >
-              <ArrowLeft size={16} aria-hidden="true" />
+              <ArrowLeft size={15} aria-hidden="true" />
               Dashboard
             </Link>
-            <p className="mt-6 text-sm font-semibold uppercase tracking-[0.14em] text-primary">
-              Collection tools
+
+            <p className="mt-7 text-xs font-semibold uppercase tracking-[0.2em] text-primary">
+              Personal catalogue
             </p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight sm:text-4xl">
-              Book management
+
+            <h1 className="mt-2 font-serif text-4xl font-medium tracking-tight sm:text-5xl">
+              My Books
             </h1>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-muted">
-              Add titles to the collection. You can edit or remove books added
-              by your account.
+
+            <p className="mt-3 max-w-xl text-sm leading-6 text-muted">
+              A considered collection of titles contributed to the library.
             </p>
           </div>
+
           <button
             type="button"
             onClick={() => {
               setEditingBook(null);
               setIsEditorOpen(true);
             }}
-            className="inline-flex min-h-11 w-fit items-center justify-center gap-2 rounded-sm bg-primary px-5 text-sm font-medium text-white transition hover:bg-primary-dark"
+            className="inline-flex min-h-12 w-fit items-center justify-center gap-2 rounded-xl bg-primary px-6 text-sm font-semibold text-white shadow-sm transition hover:bg-primary-dark"
           >
             <Plus className="h-4 w-4" aria-hidden="true" />
-            Add Book
+            Add a book
           </button>
+        </header>
+
+        <div className="mt-7 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <h2 className="font-serif text-xl">Your collection</h2>
+            <p className="mt-1 text-xs text-muted">
+              {books.length} {books.length === 1 ? 'title' : 'titles'} in your catalogue
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <Link
+              href="/books"
+              className="text-xs font-semibold uppercase tracking-[0.12em] text-primary hover:underline"
+            >
+              Browse library
+              <ArrowRight className="ml-1 inline h-3.5 w-3.5" aria-hidden="true" />
+            </Link>
+
+            <div className="inline-flex items-center rounded-xl border border-border bg-surface p-1">
+              <button
+                type="button"
+                onClick={() => setViewMode('shelf')}
+                aria-pressed={viewMode === 'shelf'}
+                className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition ${
+                  viewMode === 'shelf'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                <BookOpen className="h-3.5 w-3.5" aria-hidden="true" />
+                Shelf
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setViewMode('ledger')}
+                aria-pressed={viewMode === 'ledger'}
+                className={`inline-flex min-h-9 items-center gap-2 rounded-lg px-3 text-xs font-semibold transition ${
+                  viewMode === 'ledger'
+                    ? 'bg-primary text-white shadow-sm'
+                    : 'text-muted hover:text-foreground'
+                }`}
+              >
+                <List className="h-3.5 w-3.5" aria-hidden="true" />
+                Ledger
+              </button>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-6 flex items-center justify-between text-sm text-muted">
-          <p>
-            {books.length} {books.length === 1 ? 'book' : 'books'} added by you
-          </p>
-          <Link
-            href="/books"
-            className="font-medium text-primary hover:underline"
-          >
-            Browse collection
-          </Link>
-        </div>
-
-        <div className="mt-5">
+        <div className="mt-7">
           {isLoading ? (
             <ManagementSkeleton />
           ) : error ? (
-            <div className="rounded-sm border border-border bg-surface px-6 py-12 text-center">
-              <h2 className="font-semibold">Book list unavailable</h2>
+            <div className="rounded-2xl border border-border bg-surface px-6 py-14 text-center">
+              <h2 className="font-serif text-2xl">The catalogue is unavailable</h2>
               <p className="mt-2 text-sm text-muted">{error}</p>
               <button
                 type="button"
                 onClick={() => setReloadCount((count) => count + 1)}
-                className="mt-5 rounded-sm bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-dark"
+                className="mt-6 rounded-xl bg-primary px-5 py-3 text-sm font-semibold text-white hover:bg-primary-dark"
               >
                 Try again
               </button>
             </div>
           ) : books.length === 0 ? (
-            <div className="rounded-sm border border-dashed border-border bg-surface px-6 py-14 text-center">
-              <BookOpen
-                className="mx-auto h-10 w-10 text-primary"
-                aria-hidden="true"
-              />
-              <h2 className="mt-4 text-lg font-semibold">
-                No books in the collection yet
-              </h2>
-              <p className="mt-2 text-sm text-muted">
-                Add the first title to make it available for readers.
+            <div className="rounded-2xl border border-dashed border-border bg-surface px-6 py-16 text-center">
+              <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl border border-border bg-background">
+                <BookOpen className="h-7 w-7 text-primary" aria-hidden="true" />
+              </div>
+
+              <p className="mt-6 text-xs font-semibold uppercase tracking-[0.18em] text-primary">
+                A shelf waiting to be filled
               </p>
+
+              <h2 className="mt-2 font-serif text-2xl sm:text-3xl">
+                You haven’t shelved anything yet.
+              </h2>
+
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted">
+                Add your first book to begin building your personal library.
+              </p>
+
               <button
                 type="button"
                 onClick={() => {
                   setEditingBook(null);
                   setIsEditorOpen(true);
                 }}
-                className="mt-5 inline-flex items-center gap-2 rounded-sm bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-dark"
+                className="mt-7 inline-flex min-h-11 items-center gap-2 rounded-xl bg-primary px-5 text-sm font-semibold text-white hover:bg-primary-dark"
               >
                 <Plus className="h-4 w-4" aria-hidden="true" />
-                Add Book
+                Add your first book
               </button>
             </div>
+          ) : viewMode === 'shelf' ? (
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {books.map((book) => (
+                <article
+                  key={book._id}
+                  className="group overflow-hidden rounded-2xl border border-border bg-surface transition duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgb(var(--shadow-color)/0.09)]"
+                >
+                  <div className="relative flex min-h-[250px] items-center justify-center overflow-hidden bg-surface-secondary px-6 py-7">
+                    <div className="absolute inset-x-0 bottom-0 h-3 border-t border-border bg-background/70 shadow-[0_-5px_12px_rgb(var(--shadow-color)/0.06)]" />
+
+                    <div className="relative h-52 w-36 overflow-hidden rounded-r-md shadow-[8px_10px_18px_rgb(0_0_0/0.18)] transition duration-300 group-hover:scale-[1.03]">
+                      <div className="absolute inset-y-0 left-0 z-10 w-1.5 bg-black/15" />
+                      <Image
+                        src={book.image}
+                        alt={`Cover of ${book.title}`}
+                        loading="lazy"
+                        fill
+                        unoptimized
+                        sizes="144px"
+                        className="object-cover"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <span className="rounded-full border border-border px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.12em] text-muted">
+                        {book.category}
+                      </span>
+                      <span className="font-mono text-[10px] text-muted">
+                        {book.availableCopies}/{book.totalCopies} available
+                      </span>
+                    </div>
+
+                    <h3 className="mt-4 line-clamp-2 font-serif text-xl leading-snug">
+                      {book.title}
+                    </h3>
+                    <p className="mt-1 truncate text-sm text-muted">
+                      {book.author}
+                    </p>
+
+                    <div className="mt-5 flex items-center justify-end border-t border-border pt-4">
+                      {actionsFor(book)}
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
           ) : (
-            <>
-              <div className="hidden overflow-hidden rounded-sm border border-border bg-surface md:block">
-                <table className="w-full border-collapse text-left">
-                  <thead className="bg-[#f3f5f1] text-xs uppercase tracking-wide text-muted">
-                    <tr>
-                      <th scope="col" className="px-5 py-3 font-semibold">
-                        Book
-                      </th>
-                      <th scope="col" className="px-4 py-3 font-semibold">
-                        Category
-                      </th>
-                      <th scope="col" className="px-4 py-3 font-semibold">
-                        Copies
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-5 py-3 text-right font-semibold"
-                      >
-                        Actions
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {books.map((book) => (
-                      <tr key={book._id}>
-                        <td className="px-5 py-4">
-                          <div className="flex min-w-0 items-center gap-4">
-                            <div className="relative h-16 w-12 shrink-0 overflow-hidden rounded bg-surface-secondary">
-                              <Image
-                                src={book.image}
-                                alt={`Cover of ${book.title}`}
-                                loading="lazy"
-                                fill
-                                unoptimized
-                                sizes="48px"
-                                className="object-cover"
-                              />
-                            </div>
-                            <div className="min-w-0">
-                              <p className="truncate font-semibold">
-                                {book.title}
-                              </p>
-                              <p className="mt-1 truncate text-sm text-muted">
-                                {book.author}
-                              </p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-4 text-sm">{book.category}</td>
-                        <td className="px-4 py-4 text-sm">
-                          <span className="font-semibold">
-                            {book.availableCopies}
-                          </span>
-                          <span className="text-muted">
-                            {' '}
-                            / {book.totalCopies}
-                          </span>
-                        </td>
-                        <td className="px-5 py-4">
-                          <div className="flex justify-end">
-                            {actionsFor(book)}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            <div className="overflow-hidden rounded-2xl border border-border bg-surface">
+              <div className="hidden grid-cols-[minmax(0,1fr)_140px_150px_190px] gap-4 border-b border-border bg-surface-secondary/70 px-5 py-3 text-[10px] font-semibold uppercase tracking-[0.15em] text-muted md:grid">
+                <span>Title / Author</span>
+                <span>Category</span>
+                <span>Last updated</span>
+                <span className="text-right">Actions</span>
               </div>
 
-              <div className="space-y-3 md:hidden">
-                {books.map((book) => (
+              <div className="divide-y divide-border">
+                {books.map((book, index) => (
                   <article
                     key={book._id}
-                    className="rounded-sm border border-border bg-surface p-4"
+                    className="grid gap-4 px-4 py-4 transition hover:bg-background/50 sm:px-5 md:grid-cols-[minmax(0,1fr)_140px_150px_190px] md:items-center"
                   >
-                    <div className="flex gap-4">
-                      <div className="relative h-24 w-16 shrink-0 overflow-hidden rounded bg-surface-secondary">
+                    <div className="flex min-w-0 items-center gap-4">
+                      <div className="relative h-[76px] w-[54px] shrink-0 overflow-hidden rounded-r-sm bg-surface-secondary shadow-sm">
                         <Image
                           src={book.image}
                           alt={`Cover of ${book.title}`}
                           loading="lazy"
                           fill
                           unoptimized
-                          sizes="64px"
+                          sizes="54px"
                           className="object-cover"
                         />
                       </div>
-                      <div className="min-w-0 flex-1">
-                        <h2 className="line-clamp-2 font-semibold leading-5">
+
+                      <div className="min-w-0">
+                        <p className="mb-1 font-mono text-[10px] text-muted">
+                          {String(index + 1).padStart(2, '0')}
+                        </p>
+                        <h3 className="line-clamp-2 font-serif text-lg leading-snug">
                           {book.title}
-                        </h2>
-                        <p className="mt-1 truncate text-sm text-muted">
+                        </h3>
+                        <p className="mt-1 truncate text-xs text-muted">
                           {book.author}
                         </p>
-                        <p className="mt-2 text-xs font-medium text-primary">
-                          {book.category}
-                        </p>
-                        <p className="mt-1 text-xs text-muted">
-                          {book.availableCopies} of {book.totalCopies} copies
-                          available
+                        <p className="mt-2 text-[11px] text-muted md:hidden">
+                          {book.category} · {book.availableCopies}/{book.totalCopies} available
                         </p>
                       </div>
                     </div>
-                    <div className="mt-4 flex justify-end border-t border-border pt-3">
+
+                    <span className="hidden text-xs text-muted md:block">
+                      {book.category}
+                    </span>
+
+                    <time
+                      dateTime={book.updatedAt}
+                      className="hidden text-xs text-muted md:block"
+                    >
+                      {new Date(book.updatedAt).toLocaleDateString(undefined, {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })}
+                    </time>
+
+                    <div className="flex justify-end border-t border-border pt-3 md:border-0 md:pt-0">
                       {actionsFor(book)}
                     </div>
                   </article>
                 ))}
               </div>
-            </>
+            </div>
           )}
         </div>
       </section>
@@ -769,44 +828,54 @@ export default function BookManagement({
       )}
 
       {deleteTarget && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/40 p-5">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-foreground/45 p-5 backdrop-blur-[3px]">
           <section
             role="alertdialog"
             aria-modal="true"
             aria-labelledby="delete-book-title"
-            className="w-full max-w-md rounded-sm border border-border bg-background p-6 shadow-xl"
+            className="w-full max-w-md rounded-2xl border border-border bg-background p-6 shadow-2xl sm:p-7"
           >
-            <h2 id="delete-book-title" className="text-xl font-semibold">
+            <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-status-danger/10 text-status-danger">
+              <Trash2 className="h-5 w-5" aria-hidden="true" />
+            </div>
+
+            <p className="mt-5 text-[10px] font-semibold uppercase tracking-[0.18em] text-status-danger">
+              Confirm removal
+            </p>
+
+            <h2 id="delete-book-title" className="mt-2 font-serif text-2xl">
               Remove this book?
             </h2>
-            <p className="mt-2 text-sm leading-6 text-muted">
-              “{deleteTarget.title}” will be removed from the collection. This
-              action cannot be undone.
+
+            <p className="mt-3 text-sm leading-6 text-muted">
+              <span className="font-semibold text-foreground">
+                “{deleteTarget.title}”
+              </span>{' '}
+              will be removed from the collection. This action cannot be undone.
             </p>
-            <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+
+            <div className="mt-7 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={() => setDeleteTarget(null)}
                 disabled={deletingId !== null}
-                className="min-h-10 rounded-sm border border-border px-4 text-sm font-medium disabled:opacity-50"
+                className="min-h-11 rounded-xl border border-border px-5 text-sm font-semibold transition hover:bg-surface disabled:opacity-50"
               >
-                Cancel
+                Keep it
               </button>
+
               <button
                 type="button"
                 onClick={handleDelete}
                 disabled={deletingId !== null}
-                className="inline-flex min-h-10 items-center justify-center gap-2 rounded-sm bg-status-danger px-4 text-sm font-medium text-white hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-status-danger px-5 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {deletingId ? (
-                  <LoaderCircle
-                    className="h-4 w-4 animate-spin"
-                    aria-hidden="true"
-                  />
+                  <LoaderCircle className="h-4 w-4 animate-spin" aria-hidden="true" />
                 ) : (
                   <Trash2 className="h-4 w-4" aria-hidden="true" />
                 )}
-                {deletingId ? 'Removing...' : 'Remove book'}
+                {deletingId ? 'Deleting...' : 'Delete book'}
               </button>
             </div>
           </section>
