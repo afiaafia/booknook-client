@@ -4899,3 +4899,37 @@ button {
     transition: none;
   }
 }
+
+
+/* BookNook profile card radius refinement */
+.reading-corner-stat {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.reading-corner-stat-icon {
+  border-radius: 0.75rem;
+}
+
+.reading-corner-borrow-row {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.reading-corner-message {
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+}
+
+.reading-corner-saved-list {
+  border-top: 0;
+}
+
+.reading-corner-saved-row {
+  border: 1px solid var(--border);
+  border-radius: 0.875rem;
+  background: color-mix(in srgb, var(--surface) 66%, transparent);
+  padding: 0.75rem;
+}
+

@@ -229,7 +229,7 @@ function Stat({ label, value }: { label: string; value: number }) {
           : BookOpen;
 
   return (
-    <div className="reading-corner-stat flex min-w-0 items-start justify-between gap-3 rounded-sm p-4 sm:p-5">
+    <div className="reading-corner-stat flex min-w-0 items-start justify-between gap-3 rounded-xl p-4 sm:p-5">
       <div className="min-w-0">
         <dt className="text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted sm:text-xs">
           {label}
@@ -238,7 +238,7 @@ function Stat({ label, value }: { label: string; value: number }) {
           {value}
         </dd>
       </div>
-      <span className="reading-corner-stat-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-sm">
+      <span className="reading-corner-stat-icon flex h-10 w-10 shrink-0 items-center justify-center rounded-lg">
         <Icon size={19} strokeWidth={1.6} aria-hidden="true" />
       </span>
     </div>
