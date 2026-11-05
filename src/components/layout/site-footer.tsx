@@ -1,3 +1,4 @@
+import CurrentYear from './current-year';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -161,7 +162,7 @@ export default function SiteFooter() {
         {/* Bottom bar */}
         <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-[#E5DCCE] pt-5 text-center sm:flex-row sm:text-left dark:border-[#39342C]">
           <p className="text-xs tracking-wide text-[#948878] dark:text-[#948A7D]">
-            © {new Date().getFullYear()} BookNook. All rights reserved.
+            © <CurrentYear /> BookNook. All rights reserved.
           </p>
 
           <p className="font-serif text-xs italic tracking-wide text-[#A18A68] dark:text-[#BCA47D]">

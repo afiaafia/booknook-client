@@ -22,7 +22,6 @@ import type { Swiper as SwiperInstance } from 'swiper';
 import {
   BOOK_CATEGORIES,
   getBooks,
-  getLatestBooks,
   type Book,
   type BookCategory,
 } from '@/lib/api';
@@ -531,6 +530,19 @@ function LoadingBookGrid() {
   );
 }
 
+const NEW_ARRIVAL_TITLES = [
+  'Atomic Habits',
+  'The 48 Laws of Power',
+  'Ikigai',
+  'The Alchemist',
+  'The Psychology of Money',
+  'Rich Dad, Poor Dad',
+  'How to Win Friends and Influence People',
+  'The 7 Habits of Highly Effective People',
+  'The Subtle Art of Not Giving a F*ck',
+  'The Great Gatsby',
+] as const;
+
 export default function HomeReadingRoom() {
   const [books, setBooks] = useState<Book[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -574,20 +586,76 @@ export default function HomeReadingRoom() {
   useEffect(() => {
     let active = true;
 
-    getLatestBooks()
-      .then((result) => {
+    async function loadSelectedArrivals() {
+      try {
+        // Fetch the first catalogue page and discover the total page count.
+        const firstPage = await getBooks({
+          page: 1,
+          limit: 50,
+          sort: 'newest',
+        });
+
+        // Fetch every remaining page.
+        const remainingPages = await Promise.all(
+          Array.from(
+            { length: Math.max(0, firstPage.pagination.totalPages - 1) },
+            (_, index) =>
+              getBooks({
+                page: index + 2,
+                limit: 50,
+                sort: 'newest',
+              })
+          )
+        );
+
         if (!active) return;
-        setLatestBooks(result);
+
+        const catalogueBooks = [
+          ...firstPage.books,
+          ...remainingPages.flatMap((page) => page.books),
+        ];
+
+        // Preserve the exact requested order and use real catalogue records.
+        const selectedBooks = NEW_ARRIVAL_TITLES.map((title) =>
+          catalogueBooks.find(
+            (book) =>
+              book.title.trim().toLocaleLowerCase() ===
+              title.toLocaleLowerCase()
+          )
+        ).filter((book): book is Book => Boolean(book));
+
+        if (selectedBooks.length !== NEW_ARRIVAL_TITLES.length) {
+          const foundTitles = new Set(
+            selectedBooks.map((book) => book.title)
+          );
+
+          const missingTitles = NEW_ARRIVAL_TITLES.filter(
+            (title) =>
+              !catalogueBooks.some(
+                (book) =>
+                  book.title.trim().toLocaleLowerCase() ===
+                  title.toLocaleLowerCase()
+              )
+          );
+
+          console.error('Missing selected New Arrivals:', missingTitles);
+          throw new Error('Some selected books were not found in the catalogue.');
+        }
+
+        setLatestBooks(selectedBooks);
         setLatestHasError(false);
-      })
-      .catch(() => {
+      } catch (error) {
         if (!active) return;
+
+        console.error('Failed to load selected New Arrivals:', error);
         setLatestBooks([]);
         setLatestHasError(true);
-      })
-      .finally(() => {
+      } finally {
         if (active) setLatestLoading(false);
-      });
+      }
+    }
+
+    loadSelectedArrivals();
 
     return () => {
       active = false;
@@ -616,7 +684,7 @@ export default function HomeReadingRoom() {
           <SectionHeading
             eyebrow="Fresh from the shelves"
             title="New Arrivals"
-            description="The latest books added to the community collection."
+            description="A curated selection of ten popular titles from our collection."
             href="/books?sort=newest"
             linkText="See every title"
           />
